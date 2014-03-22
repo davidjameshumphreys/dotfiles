@@ -1,0 +1,51 @@
+[user]
+	name = David James Humphreys
+	email = davidjameshumphreys@gmail.com
+[core]
+	filemode = false
+	excludesfile = /Users/david/.gitignore
+	autocrlf = input
+
+[alias]
+    st = status
+    ci = commit
+    br = branch
+    co = checkout
+    df = diff
+    lg = log -p
+    lol = log --graph --decorate --pretty=oneline --abbrev-commit
+    lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+    ls = ls-files
+    a = add -u
+    grab = fetch --all
+    dfh = diff HEAD
+    lastash = stash show stash@{0} --stat
+    popstash = stash pop stash@{0}
+    stashes = stash list
+    dstat = diff --stat
+    pick = cherry-pick
+    cmp = diff --stat
+    reco = commit --amend --reuse-message=HEAD
+    axe = log -p -S
+[difftool "sourcetree"]
+	cmd = ksdiff $LOCAL $REMOTE
+	path = 
+[mergetool "sourcetree"]
+	cmd = ksdiff $LOCAL $REMOTE $BASE
+	trustExitCode = true
+[difftool "Kaleidoscope"]
+	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+[diff]
+	tool = Kaleidoscope
+[difftool]
+	prompt = false
+[mergetool "Kaleidoscope"]
+	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+	trustExitCode = true
+[mergetool]
+	prompt = false
+[merge]
+	tool = Kaleidoscope
+[filter "media"]
+	clean = git-media-clean %f
+	smudge = git-media-smudge %f

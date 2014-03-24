@@ -1,0 +1,3 @@
+[submodule "emacs-live"]
+	path = emacs-live
+	url = git@github.com:davidjameshumphreys/emacs-live.git

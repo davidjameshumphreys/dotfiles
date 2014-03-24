@@ -1,5 +1,5 @@
-git submodules init
-git submodules update
+git submodule init
+git submodule update
 
 cp .ackrc ${HOME}/.ackrc
 cp .gitconfig ${HOME}/.gitconfig

@@ -1,7 +1,7 @@
-git submodule init
-git submodule update
+H=/home/david
+for i in .ackrc .gitconfig .tmux.conf; do
+    cp $i ${H}/$i
+done
 
-cp .ackrc ${HOME}/.ackrc
-cp .gitconfig ${HOME}/.gitconfig
-cp -r .lein ${HOME}/.lein
-ln -s $(pwd)/emacs-live ${HOME}/.emacs.d
+cp -r .lein ${H}/.lein
+cp -r .emacs.d ${H}/.emacs.d

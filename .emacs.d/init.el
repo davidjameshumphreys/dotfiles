@@ -386,3 +386,65 @@
   (unless (getenv "TMUX")
     (setq interprogram-cut-function 'paste-to-osx)
     (setq interprogram-paste-function 'copy-from-osx)))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector ["#000000" "#8b0000" "#00ff00" "#ffa500" "#7b68ee" "#dc8cc3" "#93e0e3" "#dcdccc"])
+ '(custom-safe-themes (quote ("8ac31e1bc1920b33d478dfafb0b45989a00ede15a2388ea16093e7d0988c48d0" default)))
+ '(fci-rule-color "#383838"))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+(maybe-install-and-require 'ace-jump-mode)
+(maybe-install-and-require 'multiple-cursors)
+
+(global-set-key (kbd "C-c SPC") 'ace-jump-mode)
+(global-set-key (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
+(global-set-key (kbd "C-'") 'er/expand-region)
+
+(defvar jp-mode-map
+  (let ((map (make-sparse-keymap)))
+
+    ;; Git Stuff
+    (define-key map (kbd "C-x v p") #'git-messenger:popup-message)
+    (define-key map (kbd "C-x v f") 'magit-file-log)
+    (define-key map (kbd "C-x g") 'magit-status)
+
+    ;; Ace Jump Mode:
+    (define-key map (kbd "C-c SPC") 'ace-jump-mode)
+    (define-key map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
+
+    ;; Multiple Cursors
+    (define-key map (kbd "C->") 'mc/mark-next-like-this)
+    (define-key map (kbd "C-<") 'mc/mark-previous-like-this)
+    (define-key map (kbd "C-c C-<") 'mc/mark-all-like-this)
+
+    ;; Expand Regions
+
+
+    ;; Cider Stuff:
+    (define-key map (kbd "C-c n p") 'cider-toggle-pretty-printing)
+    (define-key map (kbd "C-c s") 'cider-spy-summary)
+
+    ;; Projectile:
+    (define-key map [?\s-p] 'projectile-switch-project)
+    (define-key map [?\s-f] 'projectile-find-file)
+    (define-key map [?\s-g] 'projectile-grep)
+
+    ;; Funkage
+    (define-key map (kbd "s-r") 'prelude-recentf-ido-find-file)
+    (define-key map (kbd "s-b") 'clone-indirect-buffer)
+    (define-key map (kbd "M-j") (lambda ()
+                                  (interactive)
+                                  (join-line -1)))
+
+    (define-key map (kbd "C-x r v") 'list-register)
+
+    map)
+  "Keymap for JP mode.")

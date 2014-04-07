@@ -1,4 +1,6 @@
 H=/home/david
+
+#rsync --filter='- .git' --filter='- start.sh' -av . $H
 for i in .ackrc .gitconfig .tmux.conf .zshrc; do
     cp $i ${H}/$i
 done

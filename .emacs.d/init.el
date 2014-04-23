@@ -395,3 +395,7 @@
   (unless (getenv "TMUX")
     (setq interprogram-cut-function 'paste-to-osx)
     (setq interprogram-paste-function 'copy-from-osx)))
+
+(maybe-install-and-require 'mustache)
+(maybe-install-and-require 'mustache-mode)
+

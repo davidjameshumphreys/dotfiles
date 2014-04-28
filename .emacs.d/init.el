@@ -88,7 +88,8 @@
 (diminish 'clj-refactor-mode)
 (add-hook 'clojure-mode-hook (lambda ()
                                (clj-refactor-mode 1)
-                               (cljr-add-keybindings-with-prefix "C-c C-o")))
+                               (cljr-add-keybindings-with-prefix "C-c C-o")
+                               (linum-mode 1)))
 
 ;; align-cljlet
 (maybe-install-and-require 'align-cljlet)
@@ -398,4 +399,3 @@
 
 (maybe-install-and-require 'mustache)
 (maybe-install-and-require 'mustache-mode)
-

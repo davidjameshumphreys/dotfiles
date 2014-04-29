@@ -5,6 +5,7 @@
                   [lein-noir "1.2.1"]
                   [lein-gorilla "0.1.2"]
                   [lein-pprint "1.1.1"]
+                  [cider/cider-nrepl "0.6.1-SNAPSHOT"]
                   ]}
 
  :profiles {:dev {:dependencies [[alembic "0.1.1"]]}}

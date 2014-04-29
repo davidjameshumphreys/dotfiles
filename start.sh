@@ -1,12 +1,9 @@
 H=/home/david
 
 #rsync --filter='- .git' --filter='- start.sh' -av . $H
-for i in .ackrc .gitconfig .tmux.conf .zshrc; do
+for i in .ackrc .gitconfig .tmux.conf .zshrc .bash_aliases; do
     cp $i ${H}/$i
 done
-
-mv ${H}/.bashrc ${H}/_bashrc
-cat ${H}/_bashrc bashrc > ${H}/.bashrc
 
 cp -r .oh-my-zsh ${H}/.oh-my-zsh
 cp -r .lein/* ${H}/.lein

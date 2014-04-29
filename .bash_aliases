@@ -1,0 +1,5 @@
+alias track='git checkout -t'
+alias g='git'
+alias gl='git lola'
+alias dir='ls -lart'
+alias cd..='cd ..'

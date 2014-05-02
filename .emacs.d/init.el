@@ -399,3 +399,5 @@
 
 (maybe-install-and-require 'mustache)
 (maybe-install-and-require 'mustache-mode)
+
+(global-set-key (kbd "M-~") 'ibuffer)

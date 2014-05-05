@@ -228,6 +228,7 @@ If called with a prefix, prompts for flags to pass to ag."
 (maybe-install-and-require 'yagist)
 (maybe-install-and-require 'kaesar)
 (setq yagist-encrypt-risky-config t)
+(setq yagist-github-token nil)
 
 ;; flyspell
 (require 'flyspell)

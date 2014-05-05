@@ -29,7 +29,7 @@
     axe = log -p -S
 [difftool "sourcetree"]
 	cmd = ksdiff $LOCAL $REMOTE
-	path = 
+	path =
 [mergetool "sourcetree"]
 	cmd = ksdiff $LOCAL $REMOTE $BASE
 	trustExitCode = true
@@ -49,3 +49,9 @@
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f
+[http]
+	sslVerify = false
+[github]
+        user = davidjameshumphreys
+[github "encrypted"]
+        oauth-token = U2FsdGVkX18VU4PDP65zO5VlbP5MZ5RwoCwHcFCWEphnJF0zLRVDGM2gIi+xPhQhE49snVQYgVfyHXSAtCqAtw==

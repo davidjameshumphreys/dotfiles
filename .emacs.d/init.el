@@ -293,12 +293,6 @@ If called with a prefix, prompts for flags to pass to ag."
 ;; Python
 ;; (setq python-shell-interpreter "python3")
 
-;; ERC
-(setq erc-hide-list '("JOIN" "PART" "QUIT"))
-(setq erc-nick "martintrojer")
-(setq erc-server "irc.freenode.org")
-(erc-spelling-mode 1)
-
 ;; =============================================================
 ;; Settings
 

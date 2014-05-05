@@ -135,7 +135,18 @@
 (maybe-install-and-require 'ag)
 (setq ag-highlight-search t)
 (setq ag-reuse-buffers t)
-(global-set-key (kbd "C-x M-f") 'ag-files)
+
+(defun ag-search (string file-regex directory)
+  "Search using ag in a given DIRECTORY (default: project root) and file type
+regex FILE-REGEX for a given search STRING, with STRING defaulting to the
+symbol under point.
+
+If called with a prefix, prompts for flags to pass to ag."
+  (interactive (list (read-from-minibuffer "Search string: " (ag/dwim-at-point))
+                     (read-from-minibuffer "In filenames matching PCRE: " (ag/buffer-extension-regex))
+                     (read-directory-name "Directory: " (ag/project-root default-directory))))
+  (ag/search string directory :file-regex file-regex))
+(global-set-key (kbd "C-x M-f") 'ag-search)
 
 ;; eldoc
 (diminish 'eldoc-mode "ED")
@@ -409,3 +420,4 @@
 (eval-after-load "ace-jump-mode"
   '(ace-jump-mode-enable-mark-sync))
 (define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
+(global-set-key (kbd "C-c l") 'goto-line)

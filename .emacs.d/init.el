@@ -108,16 +108,16 @@
 (add-hook 'clojure-mode-hook 'paredit-mode)
 
 ;; utop / OCaml
-(maybe-install-and-require 'utop)
-(autoload 'utop-setup-ocaml-buffer "utop" "Toplevel for OCaml" t)
-(add-hook 'tuareg-mode-hook 'utop-setup-ocaml-buffer)
+;; (maybe-install-and-require 'utop)
+;; (autoload 'utop-setup-ocaml-buffer "utop" "Toplevel for OCaml" t)
+;; (add-hook 'tuareg-mode-hook 'utop-setup-ocaml-buffer)
 
 ;; merlin / OCaml
-(maybe-install-and-require 'merlin)
-(diminish 'merlin-mode "MRL")
-(add-hook 'tuareg-mode-hook 'merlin-mode)
-(setq merlin-use-auto-complete-mode t)
-(setq merlin-error-after-save nil)
+;; (maybe-install-and-require 'merlin)
+;; (diminish 'merlin-mode "MRL")
+;; (add-hook 'tuareg-mode-hook 'merlin-mode)
+;; (setq merlin-use-auto-complete-mode t)
+;; (setq merlin-error-after-save nil)
 
 ;; Magit
 (maybe-install-and-require 'magit)
@@ -286,11 +286,11 @@ If called with a prefix, prompts for flags to pass to ag."
 
 ;; Scheme; gambit / chicken / petite
 ;;(setq scheme-program-name "gsi -:s,d-")
-(setq scheme-program-name "csi")
+;;(setq scheme-program-name "csi")
 ;;(setq scheme-program-name "petite")
 
 ;; Python
-(setq python-shell-interpreter "python3")
+;; (setq python-shell-interpreter "python3")
 
 ;; ERC
 (setq erc-hide-list '("JOIN" "PART" "QUIT"))

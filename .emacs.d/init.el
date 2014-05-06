@@ -124,6 +124,7 @@
 (maybe-install-and-require 'magit)
 (global-set-key (kbd "C-c C-g") 'magit-status)
 (global-set-key (kbd "C-c C-b") 'magit-blame-mode)
+(setq magit-save-some-buffers 'dontask)
 (diminish 'magit-auto-revert-mode)
 
 ;; git gutter
@@ -419,3 +420,7 @@ If called with a prefix, prompts for flags to pass to ag."
   '(ace-jump-mode-enable-mark-sync))
 (define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
 (global-set-key (kbd "C-c l") 'goto-line)
+
+(maybe-install-and-require 'keyfreq)
+(keyfreq-mode 1)
+(keyfreq-autosave-mode 1)

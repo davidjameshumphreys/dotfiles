@@ -424,3 +424,6 @@ If called with a prefix, prompts for flags to pass to ag."
 (maybe-install-and-require 'keyfreq)
 (keyfreq-mode 1)
 (keyfreq-autosave-mode 1)
+
+(maybe-install-and-require 'zencoding-mode)
+(global-set-key (kbd "C-c z") 'zencoding-mode)

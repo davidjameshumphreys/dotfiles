@@ -89,7 +89,8 @@
 (add-hook 'clojure-mode-hook (lambda ()
                                (clj-refactor-mode 1)
                                (cljr-add-keybindings-with-prefix "C-c C-o")
-                               (linum-mode 1)))
+                               (linum-mode 1)
+                               (highlight-parentheses-mode 1)))
 
 ;; align-cljlet
 (maybe-install-and-require 'align-cljlet)
@@ -311,7 +312,9 @@ If called with a prefix, prompts for flags to pass to ag."
 
 ;; match parens
 (setq blink-matching-paren-distance nil)
-
+(maybe-install-and-require 'highlight-parentheses)
+(setq hl-paren-background-colors (quote ("red" "yellow")))
+(setq hl-paren-colors (quote ("yellow" "red")))
 ;; spaces instead of tabs
 (setq-default indent-tabs-mode nil)
 (setq default-tab-width 2)

@@ -427,10 +427,3 @@ If called with a prefix, prompts for flags to pass to ag."
 
 (maybe-install-and-require 'zencoding-mode)
 (global-set-key (kbd "C-c z") 'zencoding-mode)
-(maybe-install-and-require 'crosshairs)
-(maybe-install-and-require 'mark-tools)
-(global-set-key (kbd "C-c `") 'list-marks)
-(defun here ()
-  (interactive)
-  (set-mark)
-  (set-mark))

@@ -1,7 +1,7 @@
 alias track='git checkout -t'
 alias g='git'
 alias gl='git lola'
-alias dir='ls -lart'
+alias dir='ls -la'
 alias cd..='cd ..'
 alias gst='git status'
 alias ga='git add'

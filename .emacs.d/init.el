@@ -75,6 +75,8 @@
 (setq cider-repl-history-size 1000)
 (setq cider-repl-history-file "~/.emacs.d/cider-history")
 (add-hook 'cider-repl-mode-hook 'subword-mode)
+;; Eval to buffer
+(global-set-key (kbd "C-x M-e") 'cider-pprint-eval-defun-at-point)
 
 ;; ac-nrepl
 (maybe-install-and-require 'ac-nrepl)
@@ -86,11 +88,7 @@
 ;; clj-refactor
 (maybe-install-and-require 'clj-refactor)
 (diminish 'clj-refactor-mode)
-(add-hook 'clojure-mode-hook (lambda ()
-                               (clj-refactor-mode 1)
-                               (cljr-add-keybindings-with-prefix "C-c C-o")
-                               (linum-mode 1)
-                               (highlight-parentheses-mode 1)))
+
 
 ;; align-cljlet
 (maybe-install-and-require 'align-cljlet)
@@ -174,11 +172,13 @@ If called with a prefix, prompts for flags to pass to ag."
 (diminish 'golden-ratio-mode "AU")
 (golden-ratio-mode 1)
 (add-to-list 'golden-ratio-exclude-modes "ediff-mode")
+(add-to-list 'golden-ratio-exclude-modes "calendar-mode")
 
 ;; undo-tree
 (maybe-install-and-require 'undo-tree)
 (diminish 'undo-tree-mode "UT")
 (global-undo-tree-mode)
+(global-set-key (kbd "C-c M-z") 'undo-tree-visualize)
 
 ;; yasnippet
 (maybe-install-and-require 'yasnippet)
@@ -197,7 +197,7 @@ If called with a prefix, prompts for flags to pass to ag."
 (setq ac-auto-show-menu t)
 (setq ac-dwim t)
 (setq ac-use-menu-map t)
-(setq ac-delay 0.3)
+(setq ac-delay 1)
 (setq ac-quick-help-delay 1)
 (setq ac-quick-help-height 60)
 
@@ -216,11 +216,16 @@ If called with a prefix, prompts for flags to pass to ag."
 (ido-mode t)
 (ido-ubiquitous)
 (setq ido-enable-flex-matching t)
-(global-set-key "\M-x"
-                (lambda ()
-                  (interactive)
-                  (call-interactively
-                   (intern (ido-completing-read "M-x " (all-completions "" obarray 'commandp))))))
+
+;; Autocomplete meta-x
+(maybe-install-and-require 'smex)
+(smex-initialize)
+(smex-initialize-ido)
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+(setq smex-history-length 12)
+(global-set-key (kbd "C-c M-x") 'execute-extended-command)
+
 
 ;; expand region
 (maybe-install-and-require 'expand-region)
@@ -427,3 +432,54 @@ If called with a prefix, prompts for flags to pass to ag."
 
 (maybe-install-and-require 'zencoding-mode)
 (global-set-key (kbd "C-c z") 'zencoding-mode)
+
+(setq which-func-mode t)
+(display-time-mode -1)
+(display-battery-mode t)
+(setq battery-mode-line-format "[b: %b%p%%]")
+
+(maybe-install-and-require 'guide-key)
+(guide-key-mode 1)
+(diminish 'guide-key-mode " ?")
+(setq guide-key/popup-window-position 'bottom)
+(setq guide-key/idle-delay 2)
+
+
+(add-hook 'clojure-mode-hook (lambda ()
+                               (clj-refactor-mode 1)
+                               (cljr-add-keybindings-with-prefix "C-c C-o")
+                               (linum-mode 1)
+                               (highlight-parentheses-mode 1)
+                               (guide-key/add-local-guide-key-sequence "C-x")
+                               (guide-key/add-local-guide-key-sequence "C-c")
+                               (guide-key/highlight-prefix-regexp "cl.?j")))
+
+(global-set-key (kbd "C-c *") (lambda () (interactive) (switch-to-buffer-other-window "*scratch*")))
+(setq initial-scratch-message "
+	rf 'cljr-rename-file
+	ru 'cljr-replace-use
+	au 'cljr-add-use-to-ns
+	ar 'cljr-add-require-to-ns
+	ai 'cljr-add-import-to-ns
+	sn 'cljr-sort-ns
+	rr 'cljr-remove-unused-requires
+	sr 'cljr-stop-referring
+	th 'cljr-thread
+	uw 'cljr-unwind
+	ua 'cljr-unwind-all
+	il 'cljr-introduce-let
+	el 'cljr-expand-let
+	ml 'cljr-move-to-let
+	mf 'cljr-move-form
+	tf 'cljr-thread-first-all
+	tl 'cljr-thread-last-all
+	cp 'cljr-cycle-privacy
+	cc 'cljr-cycle-coll
+	cs 'cljr-cycle-stringlike
+	ci 'cljr-cycle-if
+	ad 'cljr-add-declaration
+	dk 'cljr-destructure-keys
+	pc 'cljr-project-clean
+	")
+
+(setq calendar-minimum-window-height 5)

@@ -379,7 +379,10 @@ If called with a prefix, prompts for flags to pass to ag."
                                  (interactive)
                                  (clear-buffers)
                                  (clojure-test-run-tests)))
-
+(global-set-key (kbd "C-c C-:") '(lambda ()
+                                 (interactive)
+                                 (clear-buffers)
+                                 (clojure-test-run-test)))
 (defun clj-reset ()
   (interactive)
   (with-current-buffer "user.clj"

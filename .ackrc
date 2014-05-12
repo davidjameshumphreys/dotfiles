@@ -1,8 +1,0 @@
---type-add=GROOVY=.groovy,.java
---type-add=CLJ=.clj,.cljs,.edn
---type-add=CSV=.csv
---type-add=el=.el
---type-add=jar=.jar,.war,.ear
---ignore-dir=bin
---ignore-dir=target
---ignore-dir=bin-groovy

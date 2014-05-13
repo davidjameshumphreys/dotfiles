@@ -319,8 +319,8 @@ If called with a prefix, prompts for flags to pass to ag."
 ;; match parens
 (setq blink-matching-paren-distance nil)
 (maybe-install-and-require 'highlight-parentheses)
-(setq hl-paren-background-colors (quote ("red" "yellow")))
-(setq hl-paren-colors (quote ("yellow" "red")))
+(setq hl-paren-background-colors (quote ("red" "yellow" "red" "yellow" "red" "yellow" "red" "yellow")))
+(setq hl-paren-colors (quote ("yellow" "red" "yellow" "red" "yellow" "red" "yellow" "red")))
 ;; spaces instead of tabs
 (setq-default indent-tabs-mode nil)
 (setq default-tab-width 2)
@@ -383,6 +383,7 @@ If called with a prefix, prompts for flags to pass to ag."
                                  (interactive)
                                  (clear-buffers)
                                  (clojure-test-run-test)))
+(global-set-key (kbd "C-x ?") 'ac-nrepl-popup-doc)
 (defun clj-reset ()
   (interactive)
   (with-current-buffer "user.clj"
@@ -454,8 +455,7 @@ If called with a prefix, prompts for flags to pass to ag."
                                (linum-mode 1)
                                (highlight-parentheses-mode 1)
                                (guide-key/add-local-guide-key-sequence "C-x")
-                               (guide-key/add-local-guide-key-sequence "C-c")
-                               (guide-key/highlight-prefix-regexp "cl.?j")))
+                               (guide-key/add-local-guide-key-sequence "C-c")))
 
 (global-set-key (kbd "C-c *") (lambda () (interactive) (switch-to-buffer-other-window "*scratch*")))
 (setq initial-scratch-message "

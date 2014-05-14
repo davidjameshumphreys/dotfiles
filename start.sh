@@ -6,4 +6,5 @@ for i in .gitconfig .tmux.conf .bash_aliases; do
 done
 
 cp -r .lein/* ${H}/.lein
+cp .ssh/config ${H}/.ssh/config
 ln -fs "${PWD}/.emacs.d" "${H}/.emacs.d"

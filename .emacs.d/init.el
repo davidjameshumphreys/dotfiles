@@ -31,7 +31,7 @@
   (require p))
 
 (maybe-install-and-require 'diminish)
-
+(maybe-install-and-require 'bind-key)
 ;; =============================================================
 ;; Major modes
 
@@ -76,7 +76,7 @@
 (setq cider-repl-history-file "~/.emacs.d/cider-history")
 (add-hook 'cider-repl-mode-hook 'subword-mode)
 ;; Eval to buffer
-(global-set-key (kbd "C-x M-e") 'cider-pprint-eval-defun-at-point)
+(bind-key* "C-x M-e" 'cider-pprint-eval-defun-at-point)
 
 ;; ac-nrepl
 (maybe-install-and-require 'ac-nrepl)
@@ -92,7 +92,7 @@
 
 ;; align-cljlet
 (maybe-install-and-require 'align-cljlet)
-(global-set-key (kbd "C-c C-a") 'align-cljlet)
+(bind-key* "C-c C-a" 'align-cljlet)
 
 ;; slamhound
 (maybe-install-and-require 'slamhound)
@@ -120,8 +120,8 @@
 
 ;; Magit
 (maybe-install-and-require 'magit)
-(global-set-key (kbd "C-c C-g") 'magit-status)
-(global-set-key (kbd "C-c C-b") 'magit-blame-mode)
+(bind-key* "C-c C-g" 'magit-status)
+(bind-key* "C-c C-b" 'magit-blame-mode)
 (setq magit-save-some-buffers 'dontask)
 (diminish 'magit-auto-revert-mode)
 
@@ -129,7 +129,7 @@
 (maybe-install-and-require 'git-gutter)
 (diminish 'git-gutter-mode "GG")
 ;;(global-git-gutter-mode t)
-(global-set-key (kbd "C-x C-g") 'git-gutter:toggle)
+(bind-key* "C-x C-g" 'git-gutter:toggle)
 
 ;; silver searcher
 (maybe-install-and-require 'ag)
@@ -146,7 +146,7 @@ If called with a prefix, prompts for flags to pass to ag."
                      (read-from-minibuffer "In filenames matching PCRE: " (ag/buffer-extension-regex))
                      (read-directory-name "Directory: " (ag/project-root default-directory))))
   (ag/search string directory :file-regex file-regex))
-(global-set-key (kbd "C-x M-f") 'ag-search)
+(bind-key* "C-x M-f" 'ag-search)
 
 ;; eldoc
 (diminish 'eldoc-mode "ED")
@@ -207,9 +207,9 @@ If called with a prefix, prompts for flags to pass to ag."
 
 ;; multiple cursors
 (maybe-install-and-require 'multiple-cursors)
-(global-set-key (kbd "C-c .") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-c ,") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c M-.") 'mc/mark-all-like-this)
+(bind-key* "C-c ." 'mc/mark-next-like-this)
+(bind-key* "C-c ," 'mc/mark-previous-like-this)
+(bind-key* "C-c M-." 'mc/mark-all-like-this)
 
 ;; IDO
 (maybe-install-and-require 'ido-ubiquitous)
@@ -229,7 +229,7 @@ If called with a prefix, prompts for flags to pass to ag."
 
 ;; expand region
 (maybe-install-and-require 'expand-region)
-(global-set-key (kbd "C-\\") 'er/expand-region)
+(bind-key* "C-\\" 'er/expand-region)
 
 ;; yagist
 (maybe-install-and-require 'yagist)
@@ -265,16 +265,16 @@ If called with a prefix, prompts for flags to pass to ag."
 ;; Key bindings
 
 ;; ibuffer over list-buffers
-(global-set-key (kbd "C-x C-b") 'ibuffer)
+(bind-key* "C-x C-b" 'ibuffer)
 
 ;; comments
-(global-set-key (kbd "C-c ;") 'comment-or-uncomment-region)
+(bind-key* "C-c ;" 'comment-or-uncomment-region)
 
 ;; better search
-(global-set-key (kbd "C-s") 'isearch-forward-regexp)
-(global-set-key (kbd "C-r") 'isearch-backward-regexp)
-(global-set-key (kbd "C-M-s") 'isearch-forward)
-(global-set-key (kbd "C-M-r") 'isearch-backward)
+(bind-key* "C-s" 'isearch-forward-regexp)
+(bind-key* "C-r" 'isearch-backward-regexp)
+(bind-key* "C-M-s" 'isearch-forward)
+(bind-key* "C-M-r" 'isearch-backward)
 
 (global-set-key (kbd "RET") 'newline-and-indent)
 
@@ -375,15 +375,15 @@ If called with a prefix, prompts for flags to pass to ag."
   (with-current-buffer (current-nrepl-server-buffer)
     (kill-region (point-min) (point-max))))
 
-(global-set-key (kbd "C-c :") '(lambda ()
-                                 (interactive)
-                                 (clear-buffers)
-                                 (clojure-test-run-tests)))
-(global-set-key (kbd "C-c C-:") '(lambda ()
-                                 (interactive)
-                                 (clear-buffers)
-                                 (clojure-test-run-test)))
-(global-set-key (kbd "C-x ?") 'ac-nrepl-popup-doc)
+(bind-key* "C-c :" '(lambda ()
+             (interactive)
+             (clear-buffers)
+             (clojure-test-run-tests)))
+(bind-key* "C-c C-:" '(lambda ()
+               (interactive)
+               (clear-buffers)
+               (clojure-test-run-test)))
+(bind-key* "C-x ?" 'ac-nrepl-popup-doc)
 (defun clj-reset ()
   (interactive)
   (with-current-buffer "user.clj"
@@ -393,7 +393,7 @@ If called with a prefix, prompts for flags to pass to ag."
     (insert "(reset)")
     (cider-repl-return)))
 
-(global-set-key (kbd "C-c r") 'clj-reset)
+(bind-key* "C-c r" 'clj-reset)
 
 ;; =============================================================
 ;; OSX
@@ -419,7 +419,7 @@ If called with a prefix, prompts for flags to pass to ag."
 (maybe-install-and-require 'mustache)
 (maybe-install-and-require 'mustache-mode)
 
-(global-set-key (kbd "M-~") 'ibuffer)
+(bind-key* "M-~" 'ibuffer)
 
 (maybe-install-and-require 'ace-jump-mode)
 (autoload 'ace-jump-mode "ace-jump-mode" "Emacs quick move minor mode" t)
@@ -428,14 +428,14 @@ If called with a prefix, prompts for flags to pass to ag."
 (eval-after-load "ace-jump-mode"
   '(ace-jump-mode-enable-mark-sync))
 (define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
-(global-set-key (kbd "C-c l") 'goto-line)
+(bind-key* "C-c l" 'goto-line)
 
 (maybe-install-and-require 'keyfreq)
 (keyfreq-mode 1)
 (keyfreq-autosave-mode 1)
 
 (maybe-install-and-require 'zencoding-mode)
-(global-set-key (kbd "C-c z") 'zencoding-mode)
+(bind-key* "C-c z" 'zencoding-mode)
 
 (setq which-func-mode t)
 (display-time-mode -1)
@@ -457,7 +457,7 @@ If called with a prefix, prompts for flags to pass to ag."
                                (guide-key/add-local-guide-key-sequence "C-x")
                                (guide-key/add-local-guide-key-sequence "C-c")))
 
-(global-set-key (kbd "C-c *") (lambda () (interactive) (switch-to-buffer-other-window "*scratch*")))
+(bind-key* "C-c *" (lambda () (interactive) (switch-to-buffer-other-window "*scratch*")))
 (setq initial-scratch-message "
 	rf 'cljr-rename-file
 	ru 'cljr-replace-use

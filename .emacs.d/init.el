@@ -99,7 +99,7 @@
 
 ;; paredit
 (maybe-install-and-require 'paredit)
-(diminish 'paredit-mode "Pe")
+(diminish 'paredit-mode "«")
 (add-hook 'lisp-mode-hook 'paredit-mode)
 (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
 (add-hook 'scheme-mode-hook 'paredit-mode)
@@ -169,14 +169,14 @@ If called with a prefix, prompts for flags to pass to ag."
 
 ;; Golden Ratio
 (maybe-install-and-require 'golden-ratio)
-(diminish 'golden-ratio-mode "AU")
+(diminish 'golden-ratio-mode " φ")
 (golden-ratio-mode 1)
 (add-to-list 'golden-ratio-exclude-modes "ediff-mode")
 (add-to-list 'golden-ratio-exclude-modes "calendar-mode")
 
 ;; undo-tree
 (maybe-install-and-require 'undo-tree)
-(diminish 'undo-tree-mode "UT")
+(diminish 'undo-tree-mode " ⎌")
 (global-undo-tree-mode)
 (global-set-key (kbd "C-c M-z") 'undo-tree-visualize)
 
@@ -296,6 +296,15 @@ If called with a prefix, prompts for flags to pass to ag."
 ;;(setq scheme-program-name "gsi -:s,d-")
 ;;(setq scheme-program-name "csi")
 ;;(setq scheme-program-name "petite")
+
+(set-language-environment 'utf-8)
+(prefer-coding-system 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(setq locale-coding-system 'utf-8)
+(set-selection-coding-system 'utf-8)
+(set-input-method nil)
+
 
 ;; Python
 ;; (setq python-shell-interpreter "python3")

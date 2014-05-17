@@ -173,6 +173,7 @@ If called with a prefix, prompts for flags to pass to ag."
 (golden-ratio-mode 1)
 (add-to-list 'golden-ratio-exclude-modes "ediff-mode")
 (add-to-list 'golden-ratio-exclude-modes "calendar-mode")
+(add-to-list 'golden-ratio-exclude-modes "undo-tree-visualizer")
 
 ;; undo-tree
 (maybe-install-and-require 'undo-tree)
@@ -292,10 +293,8 @@ If called with a prefix, prompts for flags to pass to ag."
 	(ANY 2)
 	(context 2))
 
-;; Scheme; gambit / chicken / petite
-;;(setq scheme-program-name "gsi -:s,d-")
-;;(setq scheme-program-name "csi")
-;;(setq scheme-program-name "petite")
+;; =============================================================
+;; Settings
 
 (set-language-environment 'utf-8)
 (prefer-coding-system 'utf-8)
@@ -305,12 +304,6 @@ If called with a prefix, prompts for flags to pass to ag."
 (set-selection-coding-system 'utf-8)
 (set-input-method nil)
 
-
-;; Python
-;; (setq python-shell-interpreter "python3")
-
-;; =============================================================
-;; Settings
 
 (setq frame-title-format "%b")
 (set-default 'truncate-lines t)
@@ -457,7 +450,6 @@ If called with a prefix, prompts for flags to pass to ag."
 (setq guide-key/popup-window-position 'bottom)
 (setq guide-key/idle-delay 2)
 
-
 (add-hook 'clojure-mode-hook (lambda ()
                                (clj-refactor-mode 1)
                                (cljr-add-keybindings-with-prefix "C-c C-o")
@@ -495,3 +487,4 @@ If called with a prefix, prompts for flags to pass to ag."
 	")
 
 (setq calendar-minimum-window-height 5)
+(setq vc-follow-symlinks nil)

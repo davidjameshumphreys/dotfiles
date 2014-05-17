@@ -488,3 +488,8 @@ If called with a prefix, prompts for flags to pass to ag."
 
 (setq calendar-minimum-window-height 5)
 (setq vc-follow-symlinks nil)
+(maybe-install-and-require 'recentf)
+(recentf-mode 1)
+(setq recentf-max-menu-items 1000)
+(bind-key* "M-`" 'recentf-open-files)
+(bind-key* "C-x M-`" 'tmm-menubar)

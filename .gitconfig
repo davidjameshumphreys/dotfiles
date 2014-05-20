@@ -55,3 +55,5 @@
         user = davidjameshumphreys
 [github "encrypted"]
         oauth-token = U2FsdGVkX18VU4PDP65zO5VlbP5MZ5RwoCwHcFCWEphnJF0zLRVDGM2gIi+xPhQhE49snVQYgVfyHXSAtCqAtw==
+[branch]
+	autosetuprebase = remote

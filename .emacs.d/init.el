@@ -78,13 +78,6 @@
 ;; Eval to buffer
 (bind-key* "C-x M-e" 'cider-pprint-eval-defun-at-point)
 
-;; ac-nrepl
-(maybe-install-and-require 'ac-nrepl)
-(add-hook 'cider-mode-hook 'ac-nrepl-setup)
-(add-hook 'cider-repl-mode-hook 'ac-nrepl-setup)
-(eval-after-load "auto-complete"
-  '(add-to-list 'ac-modes 'cider-repl-mode))
-
 ;; clj-refactor
 (maybe-install-and-require 'clj-refactor)
 (diminish 'clj-refactor-mode)
@@ -189,18 +182,10 @@ If called with a prefix, prompts for flags to pass to ag."
 (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
 (yas-load-directory "~/.emacs.d/snippets")
 
-;; auto-complete
-(maybe-install-and-require 'auto-complete)
-(diminish 'auto-complete-mode)
-(require 'auto-complete-config)
-(ac-config-default)
-(global-auto-complete-mode t)
-(setq ac-auto-show-menu t)
-(setq ac-dwim t)
-(setq ac-use-menu-map t)
-(setq ac-delay 1)
-(setq ac-quick-help-delay 1)
-(setq ac-quick-help-height 60)
+;; company mode
+(maybe-install-and-require 'company)
+(diminish 'company-mode)
+(add-hook 'after-init-hook 'global-company-mode)
 
 ;; browse-kill-ring
 (maybe-install-and-require 'browse-kill-ring)
@@ -373,14 +358,12 @@ If called with a prefix, prompts for flags to pass to ag."
   (with-current-buffer (current-nrepl-server-buffer)
     (kill-region (point-min) (point-max))))
 
-(bind-key* "C-c :" '(lambda ()
+(defun clojure-run-tests ()
              (interactive)
              (clear-buffers)
-             (clojure-test-run-tests)))
-(bind-key* "C-c C-:" '(lambda ()
-               (interactive)
-               (clear-buffers)
-               (clojure-test-run-test)))
+             (clojure-test-run-tests))
+(bind-key* "C-c t" 'clojure-run-tests)
+
 (bind-key* "C-x ?" 'ac-nrepl-popup-doc)
 (defun clj-reset ()
   (interactive)

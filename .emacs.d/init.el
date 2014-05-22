@@ -92,7 +92,7 @@
 
 ;; paredit
 (maybe-install-and-require 'paredit)
-(diminish 'paredit-mode "«")
+(diminish 'paredit-mode " Pe")
 (add-hook 'lisp-mode-hook 'paredit-mode)
 (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
 (add-hook 'scheme-mode-hook 'paredit-mode)

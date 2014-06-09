@@ -420,8 +420,8 @@ If called with a prefix, prompts for flags to pass to ag."
 
 (setq which-func-mode t)
 (display-time-mode -1)
-(display-battery-mode t)
-(setq battery-mode-line-format "[b: %b%p%%]")
+;; (display-battery-mode t)
+;; (setq battery-mode-line-format "[b: %b%p%%]")
 
 (maybe-install-and-require 'guide-key)
 (guide-key-mode 1)

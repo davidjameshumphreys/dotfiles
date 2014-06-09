@@ -3,6 +3,7 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        cljr-splice-sexp-killing-backward
         isearch-forward-regexp
         isearch-other-meta-char
         isearch-printing-char

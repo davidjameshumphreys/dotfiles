@@ -1,0 +1,1 @@
+for repo in $(find . -name '.git' -type d); do (cd $repo; cd ..; echo "==== $PWD"; git fetch --all); done

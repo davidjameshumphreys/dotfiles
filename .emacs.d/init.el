@@ -464,6 +464,10 @@ If called with a prefix, prompts for flags to pass to ag."
 	pc 'cljr-project-clean
 	")
 
+;; toggle the default colours on linum mode.
+(set-face-foreground 'linum  (face-attribute 'default :background))
+(set-face-background 'linum  (face-attribute 'font-lock-comment-face :foreground))
+
 (setq calendar-minimum-window-height 5)
 (setq vc-follow-symlinks nil)
 (maybe-install-and-require 'recentf)

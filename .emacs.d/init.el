@@ -437,6 +437,17 @@ If called with a prefix, prompts for flags to pass to ag."
                                (guide-key/add-local-guide-key-sequence "C-c")))
 
 (bind-key* "C-c *" (lambda () (interactive) (switch-to-buffer-other-window "*scratch*")))
+
+;; Open a rest client to interact with a server.
+(bind-key* "C-c C-r" (lambda ()
+                       (interactive)
+                       (with-current-buffer "*REST*"
+                         (restclient-mode)
+                         (goto-char (point-max))
+                         (insert "\n################\nGET http://"))
+                       (switch-to-buffer-other-window "*REST*")
+                       (goto-char (point-max))))
+
 (setq initial-scratch-message "
 	rf 'cljr-rename-file
 	ru 'cljr-replace-use

@@ -1,1 +1,1 @@
-rainbarf --rgb --width 30 $(test $(hostname) != 'devbox-local' && echo '--no-battery')
+rainbarf --no-rgb --width 20 $(test $(hostname) != 'devbox-local' && echo '--no-battery') --bg=black --remaining

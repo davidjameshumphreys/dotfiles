@@ -15,6 +15,7 @@
         paredit-forward-slurp-sexp
         paredit-kill
         paredit-open-round
+        paredit-wrap-round
         yas-expand
         ))
 

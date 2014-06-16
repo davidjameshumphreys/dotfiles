@@ -14,3 +14,13 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 export LANG=en_IE.UTF-8
 source ~/.bash_aliases
 source /etc/profile.d/am_dev_env_vars.sh
+
+
+
+export WORKON_HOME=~/pyenvs
+if [[ -f /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]]; then
+    source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
+fi
+
+source zaw/zaw.zsh
+bindkey '^x' zaw

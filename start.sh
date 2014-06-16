@@ -4,5 +4,9 @@ for i in .gitconfig .tmux.conf .bash_aliases .zshrc .oh-my-zsh .emacs.d .lein/pr
     ln -fs  "${PWD}/$i" "${H}/$i"
 done
 
-cpanm || sudo apt-get -y install cpanminus
-rainbarf || sudo cpanm git://github.com/creaktive/rainbarf.git
+sudo apt-get -y install cpanminus
+sudo cpanm git://github.com/creaktive/rainbarf.git
+sudo apt-get -y install python-pip
+sudo apt-get -y install python-virtualenv
+sudo apt-get -y install virtualenvwrapper
+sudo apt-get -y install golang

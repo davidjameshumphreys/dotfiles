@@ -478,6 +478,7 @@ If called with a prefix, prompts for flags to pass to ag."
 ;; toggle the default colours on linum mode.
 (set-face-foreground 'linum  (face-attribute 'default :background))
 (set-face-background 'linum  (face-attribute 'font-lock-comment-face :foreground))
+(set-face-foreground 'font-lock-function-name-face "808080")
 
 (setq calendar-minimum-window-height 5)
 (setq vc-follow-symlinks nil)

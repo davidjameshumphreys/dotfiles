@@ -22,5 +22,5 @@ if [[ -f /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]]; then
     source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 fi
 
-source zaw/zaw.zsh
+source $HOME/zaw/zaw.zsh
 bindkey '^x' zaw

@@ -24,3 +24,4 @@ fi
 
 source $HOME/zaw/zaw.zsh
 bindkey '^x' zaw
+bindkey '^r' zaw-history

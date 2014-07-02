@@ -434,7 +434,8 @@ If called with a prefix, prompts for flags to pass to ag."
                                (cljr-add-keybindings-with-prefix "C-c C-o")
                                (linum-mode 1)
                                (guide-key/add-local-guide-key-sequence "C-x")
-                               (guide-key/add-local-guide-key-sequence "C-c")))
+                               (guide-key/add-local-guide-key-sequence "C-c")
+                               (set-face-foreground 'font-lock-function-name-face "#808080")))
 
 (bind-key* "C-c *" (lambda () (interactive) (switch-to-buffer-other-window "*scratch*")))
 
@@ -475,10 +476,15 @@ If called with a prefix, prompts for flags to pass to ag."
 	pc 'cljr-project-clean
 	")
 
+
+(add-hook 'linum-before-numbering-hook
+          (lambda ()
+            (set-face-foreground 'linum  (face-attribute 'default :background))
+            (set-face-background 'linum  (face-attribute 'font-lock-comment-face :foreground))))
+
 ;; toggle the default colours on linum mode.
-(set-face-foreground 'linum  (face-attribute 'default :background))
-(set-face-background 'linum  (face-attribute 'font-lock-comment-face :foreground))
-(set-face-foreground 'font-lock-function-name-face "#808080")
+
+
 
 (setq calendar-minimum-window-height 5)
 (setq vc-follow-symlinks nil)

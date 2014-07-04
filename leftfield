@@ -1,0 +1,5 @@
+if [ $(hostname) = 'devbox-local' ] ; then
+   echo "#[bg=colour100 fg=black]$(hostname)";
+else
+   echo "#[bg=black fg=colour100]$(hostname)";
+fi

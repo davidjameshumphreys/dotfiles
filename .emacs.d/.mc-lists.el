@@ -5,6 +5,7 @@
       '(
         cljr-slash
         cljr-splice-sexp-killing-backward
+        dabbrev-expand
         delete-horizontal-space
         isearch-forward-regexp
         isearch-other-meta-char

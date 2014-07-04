@@ -476,7 +476,9 @@ If called with a prefix, prompts for flags to pass to ag."
 	pc 'cljr-project-clean
 	")
 
-
+(setq fill-column 80)
+(setq comment-auto-fill-only-comments t)
+(auto-fill-mode t)
 (add-hook 'linum-before-numbering-hook
           (lambda ()
             (set-face-foreground 'linum  (face-attribute 'default :background))
@@ -529,3 +531,22 @@ If called with a prefix, prompts for flags to pass to ag."
                      (0 (progn (compose-region (match-beginning 1)
                                                (match-end 1) "∈")
                                nil))))))
+
+'((maybe-install-and-require 'tagedit)
+  (eval-after-load "sgml-mode"
+    '(progn
+       (require 'tagedit)
+       (tagedit-add-paredit-like-keybindings)
+       (add-hook 'html-mode-hook (lambda () (tagedit-mode 1)))))
+  (eval-after-load "mustache-mode"
+    '(progn
+       (require 'tagedit)
+       (tagedit-add-paredit-like-keybindings)
+       (add-hook 'mustache-mode-hook (lambda () (tagedit-mode 1))))))
+
+
+(maybe-install-and-require 'deft)
+(setq deft-auto-save-interval 60)
+(setq deft-extension "org")
+(setq deft-text-mode 'org-mode)
+(setq deft-use-filename-as-title t)

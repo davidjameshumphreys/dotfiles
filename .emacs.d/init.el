@@ -193,9 +193,11 @@ If called with a prefix, prompts for flags to pass to ag."
 
 ;; multiple cursors
 (maybe-install-and-require 'multiple-cursors)
-(bind-key* "C-c ." 'mc/mark-next-like-this)
-(bind-key* "C-c ," 'mc/mark-previous-like-this)
-(bind-key* "C-c M-." 'mc/mark-all-like-this)
+(bind-key* "C-c ."     'mc/mark-next-like-this)
+(bind-key* "C-c ,"     'mc/mark-previous-like-this)
+(bind-key* "C-c M-."   'mc/mark-all-like-this)
+(bind-key* "C-c M-SPC" 'mc/edit-lines)
+(bind-key* "C-c M-,"   'mc/insert-numbers)
 
 ;; IDO
 (maybe-install-and-require 'ido-ubiquitous)
@@ -486,8 +488,6 @@ If called with a prefix, prompts for flags to pass to ag."
 
 ;; toggle the default colours on linum mode.
 
-
-
 (setq calendar-minimum-window-height 5)
 (setq vc-follow-symlinks nil)
 (maybe-install-and-require 'recentf)
@@ -556,3 +556,7 @@ If called with a prefix, prompts for flags to pass to ag."
 (maybe-install-and-require 'uuid)
 (defun deft-unused-slug ()
   (uuid-to-stringy (uuid-create)))
+
+(add-hook 'ace-jump-mode-before-jump-hook
+          (lambda ()
+            (set-face-foreground 'ace-jump-face-foreground "blue")))

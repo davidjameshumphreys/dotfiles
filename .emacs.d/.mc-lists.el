@@ -11,6 +11,7 @@
         isearch-other-meta-char
         isearch-printing-char
         paredit-backward-kill-word
+        paredit-close-round
         paredit-forward-delete
         paredit-forward-kill-word
         paredit-forward-slurp-sexp
@@ -18,9 +19,11 @@
         paredit-open-round
         paredit-wrap-round
         reindent-then-newline-and-indent
+        smex
         yas-expand
         ))
 
 (setq mc/cmds-to-run-once
       '(
+        isearch-backward-regexp
         ))

@@ -550,3 +550,9 @@ If called with a prefix, prompts for flags to pass to ag."
 (setq deft-extension "org")
 (setq deft-text-mode 'org-mode)
 (setq deft-use-filename-as-title t)
+
+;; redefining the auto naming for Deft -- this makes it easier to
+;; share amongst different machines with versioning.
+(maybe-install-and-require 'uuid)
+(defun deft-unused-slug ()
+  (uuid-to-stringy (uuid-create)))

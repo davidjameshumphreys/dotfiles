@@ -17,6 +17,7 @@
         paredit-kill
         paredit-open-round
         paredit-wrap-round
+        reindent-then-newline-and-indent
         yas-expand
         ))
 

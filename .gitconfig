@@ -27,6 +27,7 @@
     cmp = diff --stat
     reco = commit --amend --reuse-message=HEAD
     axe = log -p -S
+    sshow = show --ignore-all-space
 [difftool "sourcetree"]
 	cmd = ksdiff $LOCAL $REMOTE
 	path =

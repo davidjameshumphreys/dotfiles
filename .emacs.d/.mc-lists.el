@@ -3,6 +3,7 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        align-cljlet
         cljr-slash
         cljr-splice-sexp-killing-backward
         dabbrev-expand
@@ -12,10 +13,12 @@
         isearch-printing-char
         paredit-backward-kill-word
         paredit-close-round
+        paredit-close-round-and-newline
         paredit-forward-delete
         paredit-forward-kill-word
         paredit-forward-slurp-sexp
         paredit-kill
+        paredit-open-curly
         paredit-open-round
         paredit-wrap-round
         reindent-then-newline-and-indent
@@ -25,5 +28,6 @@
 
 (setq mc/cmds-to-run-once
       '(
+        cider-load-current-buffer
         isearch-backward-regexp
         ))

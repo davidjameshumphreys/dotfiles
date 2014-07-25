@@ -11,6 +11,8 @@
         isearch-forward-regexp
         isearch-other-meta-char
         isearch-printing-char
+        kill-region
+        magit-status
         paredit-backward-kill-word
         paredit-close-round
         paredit-close-round-and-newline

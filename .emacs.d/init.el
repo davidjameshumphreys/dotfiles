@@ -360,45 +360,6 @@ If called with a prefix, prompts for flags to pass to ag."
   (with-current-buffer (current-nrepl-server-buffer)
     (kill-region (point-min) (point-max))))
 
-(defun clojure-run-tests ()
-             (interactive)
-             (clear-buffers)
-             (clojure-test-run-tests))
-(bind-key* "C-c t" 'clojure-run-tests)
-
-(bind-key* "C-x ?" 'ac-nrepl-popup-doc)
-(defun clj-reset ()
-  (interactive)
-  (with-current-buffer "user.clj"
-    (cider-load-current-buffer))
-  (with-current-buffer (cider-current-repl-buffer)
-    (goto-char (point-max))
-    (insert "(reset)")
-    (cider-repl-return)))
-
-(bind-key* "C-c r" 'clj-reset)
-
-;; =============================================================
-;; OSX
-
-;; Allow hash to be entered
-(when (eq 'darwin system-type)
-
-  (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
-
-  (defun copy-from-osx ()
-    (shell-command-to-string "pbpaste"))
-
-	(defun paste-to-osx (text &optional push)
-    (let ((process-connection-type nil))
-      (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
-        (process-send-string proc text)
-        (process-send-eof proc))))
-
-  (unless (getenv "TMUX")
-    (setq interprogram-cut-function 'paste-to-osx)
-    (setq interprogram-paste-function 'copy-from-osx)))
-
 (maybe-install-and-require 'mustache)
 (maybe-install-and-require 'mustache-mode)
 

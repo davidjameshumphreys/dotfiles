@@ -4,6 +4,7 @@
 (setq mc/cmds-to-run-for-all
       '(
         align-cljlet
+        cider-repl-return
         cljr-slash
         cljr-splice-sexp-killing-backward
         dabbrev-expand
@@ -13,6 +14,7 @@
         isearch-printing-char
         kill-region
         magit-status
+        paredit-backslash
         paredit-backward-kill-word
         paredit-close-round
         paredit-close-round-and-newline

@@ -18,6 +18,7 @@
         paredit-backward-kill-word
         paredit-close-round
         paredit-close-round-and-newline
+        paredit-doublequote
         paredit-forward-delete
         paredit-forward-kill-word
         paredit-forward-slurp-sexp

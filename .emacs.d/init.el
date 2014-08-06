@@ -521,3 +521,6 @@ If called with a prefix, prompts for flags to pass to ag."
 (add-hook 'ace-jump-mode-before-jump-hook
           (lambda ()
             (set-face-foreground 'ace-jump-face-foreground "blue")))
+
+(maybe-install-and-require 'powerline)
+(powerline-center-theme)

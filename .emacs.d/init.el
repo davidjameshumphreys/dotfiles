@@ -524,3 +524,6 @@ If called with a prefix, prompts for flags to pass to ag."
 
 (maybe-install-and-require 'powerline)
 (powerline-center-theme)
+(setq global-mode-string
+      (append global-mode-string
+              '((:eval (concat "[⁋" (getenv "AM_PROFILE") "]")))))

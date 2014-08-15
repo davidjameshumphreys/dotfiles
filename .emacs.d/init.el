@@ -526,3 +526,13 @@ If called with a prefix, prompts for flags to pass to ag."
 (setq global-mode-string
       (append global-mode-string
               '((:eval (concat "[⁋" (getenv "AM_PROFILE") "]")))))
+
+(defun back-window ()
+    (interactive)
+      (other-window -1))
+
+(bind-key* "C-x 0" 'back-window)
+
+;;todo: clojure-jump-between-tests-and-code
+;;cider-test-run-tests
+;; toggle-truncate-lines

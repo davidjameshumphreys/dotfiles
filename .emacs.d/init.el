@@ -18,7 +18,7 @@
 (require 'package)
 
 (add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+             '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/") t)
 
 (package-initialize)
 
@@ -69,7 +69,6 @@
 
 ;; Cider
 (maybe-install-and-require 'cider)
-(maybe-install-and-require 'cider-tracing)
 (diminish 'cider-mode " Cdr")
 (setq cider-repl-wrap-history t)
 (setq cider-repl-history-size 1000)

@@ -7,15 +7,20 @@
         cider-repl-return
         cljr-slash
         cljr-splice-sexp-killing-backward
+        cljr-slash
         dabbrev-expand
+        cljr-splice-sexp-killing-backward
         delete-horizontal-space
+        dabbrev-expand
         isearch-forward-regexp
         isearch-other-meta-char
         isearch-printing-char
+        delete-horizontal-space
         kill-region
         magit-status
         paredit-backslash
         paredit-backward-kill-word
+        paredit-close-curly
         paredit-close-round
         paredit-close-round-and-newline
         paredit-doublequote
@@ -35,4 +40,5 @@
       '(
         cider-load-current-buffer
         isearch-backward-regexp
+        isearch-delete-char
         ))

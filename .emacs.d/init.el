@@ -75,8 +75,9 @@
 (setq cider-repl-history-size 1000)
 (setq cider-repl-history-file "~/.emacs.d/cider-history")
 (add-hook 'cider-repl-mode-hook 'subword-mode)
+(add-hook 'cider-repl-mode-hook (lambda () (toggle-truncate-lines -1)))
 ;; Eval to buffer
-(bind-key* "C-x M-e" 'cider-pprint-eval-defun-at-point)
+(bind-key "C-x M-e" 'cider-pprint-eval-defun-at-point cider-mode-map)
 
 ;; clj-refactor
 (maybe-install-and-require 'clj-refactor)
@@ -457,7 +458,6 @@ If called with a prefix, prompts for flags to pass to ag."
 (bind-key* "M-`" 'recentf-open-files)
 (bind-key* "C-x M-`" 'tmm-menubar)
 
-
 (eval-after-load 'clojure-mode
   '(font-lock-add-keywords
     'clojure-mode `(("(\\(partial\\)[[:space:]]"
@@ -534,6 +534,6 @@ If called with a prefix, prompts for flags to pass to ag."
 
 (bind-key* "C-x 0" 'back-window)
 
-;;todo: clojure-jump-between-tests-and-code
-;;cider-test-run-tests
+(bind-key "C-c t"   'clojure-jump-between-tests-and-code cider-mode-map)
+(bind-key "C-c C-t" 'cider-test-run-tests cider-mode-map)
 ;; toggle-truncate-lines

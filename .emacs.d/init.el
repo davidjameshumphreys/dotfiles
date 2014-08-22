@@ -78,6 +78,10 @@
 (add-hook 'cider-repl-mode-hook (lambda () (toggle-truncate-lines -1)))
 ;; Eval to buffer
 (bind-key "C-x M-e" 'cider-pprint-eval-defun-at-point cider-mode-map)
+(unbind-key "C-x C-r")
+(bind-key "C-x C-r" 'cider-repl-previous-matching-input cider-mode-map)
+
+
 
 ;; clj-refactor
 (maybe-install-and-require 'clj-refactor)
@@ -536,4 +540,30 @@ If called with a prefix, prompts for flags to pass to ag."
 
 (bind-key "C-c t"   'clojure-jump-between-tests-and-code cider-mode-map)
 (bind-key "C-c C-t" 'cider-test-run-tests cider-mode-map)
+
 ;; toggle-truncate-lines
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+
+ '(magit-diff-options (quote ("--ignore-space-change" "--ignore-all-space")))
+ '(powerline-show-vc nil))
+
+(setq bookmark-save-flag 0)
+
+(unless (boundp 'warning-suppress-types)
+  (setq warning-suppress-types nil))
+(push '(undo discard-info) warning-suppress-types)
+
+
+;; http://www.emacswiki.org/emacs/AlarmBell#toc11
+(defun mode-line-visible-bell ()
+  "A friendlier visual bell effect."
+  (invert-face 'mode-line)
+  (run-with-timer 0.3 nil 'invert-face 'mode-line))
+;;todo: for the C-<- and C-->  do a bell first.
+
+(setq visible-bell nil
+      ring-bell-function 'mode-line-visible-bell)

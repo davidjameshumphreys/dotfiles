@@ -5,17 +5,19 @@
       '(
         align-cljlet
         cider-repl-return
+        cljr-cycle-stringlike
+        cljr-slash
         cljr-slash
         cljr-splice-sexp-killing-backward
-        cljr-slash
+        cljr-splice-sexp-killing-backward
         dabbrev-expand
-        cljr-splice-sexp-killing-backward
+        dabbrev-expand
         delete-horizontal-space
-        dabbrev-expand
+        delete-horizontal-space
+        isearch-abort
         isearch-forward-regexp
         isearch-other-meta-char
         isearch-printing-char
-        delete-horizontal-space
         kill-region
         magit-status
         paredit-backslash
@@ -32,13 +34,19 @@
         paredit-open-round
         paredit-wrap-round
         reindent-then-newline-and-indent
+        save-some-buffers
         smex
+        universal-argument-minus
         yas-expand
         ))
 
 (setq mc/cmds-to-run-once
       '(
+        ag-search
+        beginning-of-buffer
         cider-load-current-buffer
+        cider-switch-to-repl-buffer
+        git-gutter:toggle
         isearch-backward-regexp
         isearch-delete-char
         ))

@@ -25,3 +25,5 @@ fi
 source $HOME/zaw/zaw.zsh
 bindkey '^x' zaw
 bindkey '^r' zaw-history
+
+export LESS=-R-X

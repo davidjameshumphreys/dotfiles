@@ -239,6 +239,9 @@ If called with a prefix, prompts for flags to pass to ag."
 (setq display-time-load-average t)
 (display-time)
 
+(setq global-mode-string
+      (append global-mode-string
+              '((:eval (concat "[⁋" (getenv "AM_PROFILE") "]")))))
 ;; jvm-mode
 (maybe-install-and-require 'jvm-mode)
 (jvm-mode)
@@ -528,9 +531,6 @@ If called with a prefix, prompts for flags to pass to ag."
 
 (maybe-install-and-require 'powerline)
 (powerline-center-theme)
-(setq global-mode-string
-      (append global-mode-string
-              '((:eval (concat "[⁋" (getenv "AM_PROFILE") "]")))))
 
 (defun back-window ()
     (interactive)
@@ -547,7 +547,6 @@ If called with a prefix, prompts for flags to pass to ag."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
-
  '(magit-diff-options (quote ("--ignore-space-change" "--ignore-all-space")))
  '(powerline-show-vc nil))
 

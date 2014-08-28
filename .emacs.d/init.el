@@ -566,3 +566,6 @@ If called with a prefix, prompts for flags to pass to ag."
 
 (setq visible-bell nil
       ring-bell-function 'mode-line-visible-bell)
+
+(maybe-install-and-require 'god-mode)
+(diminish 'god-local-mode "[[☁️ GOD ⚡️ ]]")

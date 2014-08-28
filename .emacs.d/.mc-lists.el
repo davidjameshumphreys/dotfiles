@@ -32,6 +32,7 @@
         paredit-kill
         paredit-open-curly
         paredit-open-round
+        paredit-open-square
         paredit-wrap-round
         reindent-then-newline-and-indent
         save-some-buffers

@@ -176,21 +176,21 @@ If called with a prefix, prompts for flags to pass to ag."
 ;; undo-tree
 (maybe-install-and-require 'undo-tree)
 (diminish 'undo-tree-mode " ⎌")
-(global-undo-tree-mode)
+(global-undo-tree-mode -1)
 (global-set-key (kbd "C-c M-z") 'undo-tree-visualize)
 
 ;; yasnippet
 (maybe-install-and-require 'yasnippet)
 (diminish 'yas-minor-mode " Y")
 (maybe-install-and-require 'clojure-snippets)
-(yas-global-mode 1)
+(yas-global-mode -1)
 (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
 (yas-load-directory "~/.emacs.d/snippets")
 
 ;; company mode
 (maybe-install-and-require 'company)
 (diminish 'company-mode)
-(add-hook 'after-init-hook 'global-company-mode)
+;;(add-hook 'after-init-hook 'global-company-mode)
 
 ;; browse-kill-ring
 (maybe-install-and-require 'browse-kill-ring)

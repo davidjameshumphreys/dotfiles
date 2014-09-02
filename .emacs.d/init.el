@@ -569,3 +569,9 @@ If called with a prefix, prompts for flags to pass to ag."
 
 (maybe-install-and-require 'god-mode)
 (diminish 'god-local-mode "[[☁️ GOD ⚡️ ]]")
+
+(maybe-install-and-require 'help+)
+(maybe-install-and-require 'help-mode+)
+(maybe-install-and-require 'help-fns+)
+;; help+
+;; help-fns--autoloaded-p

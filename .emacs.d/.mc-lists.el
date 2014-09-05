@@ -14,12 +14,14 @@
         dabbrev-expand
         delete-horizontal-space
         delete-horizontal-space
+        end-of-buffer
         isearch-abort
         isearch-forward-regexp
         isearch-other-meta-char
         isearch-printing-char
         kill-region
         magit-status
+        nxml-electric-slash
         paredit-backslash
         paredit-backward-kill-word
         paredit-close-curly
@@ -33,6 +35,7 @@
         paredit-open-curly
         paredit-open-round
         paredit-open-square
+        paredit-semicolon
         paredit-wrap-round
         reindent-then-newline-and-indent
         save-some-buffers

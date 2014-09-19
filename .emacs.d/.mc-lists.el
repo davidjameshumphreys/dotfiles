@@ -15,6 +15,7 @@
         delete-horizontal-space
         delete-horizontal-space
         end-of-buffer
+        indent-for-tab-command
         isearch-abort
         isearch-forward-regexp
         isearch-other-meta-char
@@ -27,6 +28,7 @@
         paredit-close-curly
         paredit-close-round
         paredit-close-round-and-newline
+        paredit-close-square
         paredit-doublequote
         paredit-forward-delete
         paredit-forward-kill-word

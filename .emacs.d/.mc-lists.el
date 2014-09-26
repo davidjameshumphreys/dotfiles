@@ -50,6 +50,7 @@
       '(
         ag-search
         beginning-of-buffer
+        cider-jump-back
         cider-load-current-buffer
         cider-switch-to-repl-buffer
         git-gutter:toggle

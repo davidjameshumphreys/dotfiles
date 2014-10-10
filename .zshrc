@@ -27,3 +27,4 @@ bindkey '^x' zaw
 bindkey '^r' zaw-history
 
 export LESS=-R-X
+setopt histignoredups

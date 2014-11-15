@@ -28,3 +28,17 @@ bindkey '^r' zaw-history
 
 export LESS=-R-X
 setopt histignoredups
+
+zshaddhistory () {
+    # Ignore common commands.
+    COMMAND_STR=${1%%$'\n'}
+    [[ ( -z $COMMAND_STR ) ||                            \
+       ( $COMMAND_STR =~ hist(ory)? ) ||                  \
+       ( $COMMAND_STR =~ ^l(s\|l\|a)?$ ) ||                \
+       ( $COMMAND_STR =~ ^(d\|gd\|git\ diff\|glp\|gg)$ ) || \
+       ( $COMMAND_STR =~ ^gl) ||                             \
+       ( $COMMAND_STR =~ ^cd) ||                              \
+       ( $COMMAND_STR =~ ^kill)                                \
+     ]] && return 1
+    return 0
+}

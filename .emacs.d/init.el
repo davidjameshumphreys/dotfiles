@@ -539,6 +539,7 @@ If called with a prefix, prompts for flags to pass to ag."
 
 (bind-key "C-c t"   'clojure-jump-between-tests-and-code cider-mode-map)
 (bind-key "C-c C-t" 'cider-test-run-tests cider-mode-map)
+(bind-key "C-c M-r" 'cider-repl-previous-matching-input)
 
 ;; toggle-truncate-lines
 (custom-set-variables
@@ -546,6 +547,7 @@ If called with a prefix, prompts for flags to pass to ag."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ag-arguments (quote ("--ignore=*build/js*" "--line-number" "--smart-case" "--nogroup" "--column" "--")))
  '(magit-diff-options (quote ("--ignore-space-change" "--ignore-all-space")))
  '(powerline-show-vc nil))
 
@@ -555,6 +557,7 @@ If called with a prefix, prompts for flags to pass to ag."
   (setq warning-suppress-types nil))
 (push '(undo discard-info) warning-suppress-types)
 
+(setq ag-arguments '("--ignore=*build/js*" "--line-number" "--smart-case" "--nogroup" "--column" "--"))
 
 ;; http://www.emacswiki.org/emacs/AlarmBell#toc11
 (defun mode-line-visible-bell ()

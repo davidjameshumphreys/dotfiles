@@ -37,7 +37,6 @@
 
 ;; Clojure
 (maybe-install-and-require 'clojure-mode)
-(maybe-install-and-require 'clojure-test-mode)
 (setq auto-mode-alist (cons '("\\.cljs$" . clojure-mode) auto-mode-alist))
 
 ;; Tuareg / OCaml

@@ -78,6 +78,7 @@
 (bind-key "C-x M-e" 'cider-pprint-eval-defun-at-point cider-mode-map)
 (unbind-key "C-x C-r")
 (bind-key "C-x C-r" 'cider-repl-previous-matching-input cider-mode-map)
+(bind-key "C-x C-r" 'cider-repl-previous-matching-input cider-repl-mode-map)
 
 
 

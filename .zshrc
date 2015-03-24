@@ -1,32 +1,62 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
+export DOTFILES=~/dotfiles
 
 ZSH_THEME="robbyrussell"
-# CASE_SENSITIVE="true"
 DISABLE_AUTO_UPDATE="true"
 DISABLE_AUTO_TITLE="true"
+plugins=(git dircycle gem git-extras git-flow lein mvn osx perl)
 
-plugins=(common-aliases lein)
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
-export PATH=$HOME/bin:/usr/local/bin:$PATH
 export LANG=en_IE.UTF-8
-source ~/.bash_aliases
-source /etc/profile.d/am_dev_env_vars.sh
+alias TIMESTAMP='date +%Y%m%d-%H%M'
 
+alias dir='ls -lrt'
+alias fcl='ack --CLJ'
+alias gau='git add -u'
+alias gst='git status'
+alias g='git'
+alias d='docker'
 
+settitle(){
+    echo -ne "\033]0;$*\007"
+}
 
-export WORKON_HOME=~/pyenvs
-if [[ -f /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]]; then
-    source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
-fi
+peek(){
+    find $1 -depth 1
+}
+export PATH=/usr/local/bin:~/bin:$PATH
+
+see_line(){
+    head -$2 $1 | tail -1
+}
 
 source $HOME/zaw/zaw.zsh
 bindkey '^x' zaw
 bindkey '^r' zaw-history
 
 export LESS=-R-X
+alias DATE='date +%Y%m%d'
+
+zu () {
+    z=$1
+    zip -qr $(DATE)-$z $z
+}
+
+zm () {
+    z=$1
+    zip -qrm $(DATE)-$z $z
+}
+
+qc(){
+    python -c "from math import *; print $1"
+}
+
+alias vs='vagrant status'
+alias gl='git lola'
+alias npm-exec='PATH=$(npm bin):$PATH'
+
 setopt histignoredups
 
 zshaddhistory () {
@@ -42,3 +72,11 @@ zshaddhistory () {
      ]] && return 1
     return 0
 }
+
+export EDITOR='emacs --no-init'
+
+HOSTFILE=${DOTFILES}/hosts/$(hostname)
+if [ -f  $HOSTFILE ] ; then
+    echo "Loading ${HOSTFILE}"
+    source $HOSTFILE
+fi

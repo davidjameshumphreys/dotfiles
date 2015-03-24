@@ -15,14 +15,23 @@
         delete-horizontal-space
         delete-horizontal-space
         end-of-buffer
+        ido-switch-buffer
         indent-for-tab-command
         isearch-abort
         isearch-forward-regexp
         isearch-other-meta-char
         isearch-printing-char
+        keyboard-escape-quit
         kill-region
         magit-status
+        ns-copy-including-secondary
         nxml-electric-slash
+        org-beginning-of-line
+        org-cycle
+        org-delete-char
+        org-end-of-line
+        org-kill-line
+        org-yank
         paredit-backslash
         paredit-backward-kill-word
         paredit-close-curly
@@ -34,10 +43,12 @@
         paredit-forward-kill-word
         paredit-forward-slurp-sexp
         paredit-kill
+        paredit-newline
         paredit-open-curly
         paredit-open-round
         paredit-open-square
         paredit-semicolon
+        paredit-splice-sexp
         paredit-wrap-round
         reindent-then-newline-and-indent
         save-some-buffers
@@ -56,4 +67,5 @@
         git-gutter:toggle
         isearch-backward-regexp
         isearch-delete-char
+        paredit-backward-slurp-sexp
         ))

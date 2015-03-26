@@ -382,8 +382,8 @@ If called with a prefix, prompts for flags to pass to ag."
 (bind-key* "C-c l" 'goto-line)
 
 (maybe-install-and-require 'keyfreq)
-(keyfreq-mode 1)
-(keyfreq-autosave-mode 1)
+(keyfreq-mode 0)
+(keyfreq-autosave-mode 0)
 
 (maybe-install-and-require 'zencoding-mode)
 (bind-key* "C-c z" 'zencoding-mode)
@@ -461,6 +461,7 @@ If called with a prefix, prompts for flags to pass to ag."
 (maybe-install-and-require 'recentf)
 (recentf-mode 1)
 (setq recentf-max-menu-items 1000)
+(setq recentf-max-saved-items 1000)
 (bind-key* "M-`" 'recentf-open-files)
 (bind-key* "C-x M-`" 'tmm-menubar)
 
@@ -512,7 +513,9 @@ If called with a prefix, prompts for flags to pass to ag."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ag-arguments (quote ("--ignore=*build/js*" "--line-number" "--smart-case" "--nogroup" "--column" "--")))
+ '(ag-arguments
+   (quote
+    ("--ignore=*build/js*" "--line-number" "--smart-case" "--nogroup" "--column" "--")))
  '(magit-diff-options (quote ("--ignore-space-change" "--ignore-all-space")))
  '(powerline-show-vc nil))
 
@@ -523,6 +526,7 @@ If called with a prefix, prompts for flags to pass to ag."
 (push '(undo discard-info) warning-suppress-types)
 
 (setq ag-arguments '("--ignore=*build/js*" "--line-number" "--smart-case" "--nogroup" "--column" "--"))
+(unbind-key "C-z")
 
 ;; http://www.emacswiki.org/emacs/AlarmBell#toc11
 (defun mode-line-visible-bell ()
@@ -540,5 +544,17 @@ If called with a prefix, prompts for flags to pass to ag."
 (maybe-install-and-require 'help+)
 (maybe-install-and-require 'help-mode+)
 (maybe-install-and-require 'help-fns+)
+
+(maybe-install-and-require 'swiper)
 ;; help+
 ;; help-fns--autoloaded-p
+;; North London ;P
+(setq calendar-latitude 51.5683)
+(setq calendar-longitude 0.1031)
+
+(when (eq 'darwin system-type)
+  (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
+  (setq cider-lein-command "/usr/local/bin/lein")
+  (setq markdown-open-command "open -a /Applications/Marked.app")
+  (toggle-frame-maximized)
+  (setq ag-executable "/usr/local/bin/ag"))

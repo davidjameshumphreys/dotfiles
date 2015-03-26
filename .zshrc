@@ -55,6 +55,15 @@ qc(){
 
 alias vs='vagrant status'
 alias gl='git lola'
+alias gg='git grab'
+alias gp='git pull'
+alias gio='git onto'
+alias gco='git checkout'
+alias gcob='git checkout -B'
+alias gcot='git checkout -T'
+alias gdfh='git dfh'
+alias greset-soft='git reset --soft'
+
 alias npm-exec='PATH=$(npm bin):$PATH'
 
 setopt histignoredups

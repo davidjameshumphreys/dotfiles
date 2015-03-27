@@ -175,7 +175,7 @@ If called with a prefix, prompts for flags to pass to ag."
 ;; undo-tree
 (maybe-install-and-require 'undo-tree)
 (diminish 'undo-tree-mode " ⎌")
-(global-undo-tree-mode -1)
+(global-undo-tree-mode 1)
 (global-set-key (kbd "C-c M-z") 'undo-tree-visualize)
 
 ;; yasnippet
@@ -544,8 +544,16 @@ If called with a prefix, prompts for flags to pass to ag."
 (maybe-install-and-require 'help+)
 (maybe-install-and-require 'help-mode+)
 (maybe-install-and-require 'help-fns+)
-
 (maybe-install-and-require 'swiper)
+(bind-key "C-c M-s" 'swiper)
+(maybe-install-and-require 'aggressive-indent)
+(maybe-install-and-require 'mmm-mode)
+(maybe-install-and-require 'dash)
+
+(-map
+ (lambda (m)
+   (add-hook m #'aggressive-indent-mode))
+ '(clojure-mode-hook emacs-lisp-mode-hook))
 ;; help+
 ;; help-fns--autoloaded-p
 ;; North London ;P

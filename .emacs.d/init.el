@@ -120,6 +120,7 @@
 (bind-key* "C-c C-g" 'magit-status)
 (bind-key* "C-c C-b" 'magit-blame-mode)
 (setq magit-save-some-buffers 'dontask)
+(setq magit-diff-options (quote ("--ignore-space-change" "--ignore-all-space")))
 (diminish 'magit-auto-revert-mode)
 
 ;; git gutter
@@ -415,16 +416,6 @@ If called with a prefix, prompts for flags to pass to ag."
 
 (bind-key* "C-c *" (lambda () (interactive) (switch-to-buffer-other-window "*scratch*")))
 
-;; Open a rest client to interact with a server.
-(bind-key* "C-c C-r" (lambda ()
-                       (interactive)
-                       (with-current-buffer "*REST*"
-                         (restclient-mode)
-                         (goto-char (point-max))
-                         (insert "\n################\nGET http://"))
-                       (switch-to-buffer-other-window "*REST*")
-                       (goto-char (point-max))))
-
 (setq initial-scratch-message "
 	rf 'cljr-rename-file
 	ru 'cljr-replace-use
@@ -483,7 +474,6 @@ If called with a prefix, prompts for flags to pass to ag."
        (tagedit-add-paredit-like-keybindings)
        (add-hook 'mustache-mode-hook (lambda () (tagedit-mode 1))))))
 
-
 (maybe-install-and-require 'deft)
 (setq deft-auto-save-interval 60)
 (setq deft-extension "org")
@@ -523,10 +513,7 @@ If called with a prefix, prompts for flags to pass to ag."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ag-arguments
-   (quote
-    ("--ignore=*build/js*" "--line-number" "--smart-case" "--nogroup" "--column" "--")))
- '(magit-diff-options (quote ("--ignore-space-change" "--ignore-all-space")))
+
  '(powerline-show-vc nil))
 
 (setq bookmark-save-flag 0)

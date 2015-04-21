@@ -73,7 +73,12 @@
 (setq cider-repl-history-size 1000)
 (setq cider-repl-history-file "~/.emacs.d/cider-history")
 (add-hook 'cider-repl-mode-hook 'subword-mode)
-(add-hook 'cider-repl-mode-hook (lambda () (toggle-truncate-lines -1)))
+
+(-map
+ (lambda (m)
+   (add-hook m (lambda () (toggle-truncate-lines -1))))
+ '(clojure-mode-hook markdown-mode-hook))
+
 ;; Eval to buffer
 (bind-key "C-x M-e" 'cider-pprint-eval-defun-at-point cider-mode-map)
 (unbind-key "C-x C-r")

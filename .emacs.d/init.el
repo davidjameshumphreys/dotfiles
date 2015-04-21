@@ -544,6 +544,8 @@ If called with a prefix, prompts for flags to pass to ag."
 (maybe-install-and-require 'swiper)
 (bind-key "C-c M-s" 'swiper)
 (maybe-install-and-require 'aggressive-indent)
+(bind-key "C-c C-q" 'cider-quit clojure-mode-map)
+
 (maybe-install-and-require 'mmm-mode)
 (maybe-install-and-require 'dash)
 
@@ -551,10 +553,10 @@ If called with a prefix, prompts for flags to pass to ag."
  (lambda (m)
    (add-hook m #'aggressive-indent-mode))
  '(clojure-mode-hook emacs-lisp-mode-hook))
+
+
 ;; help+
 ;; help-fns--autoloaded-p
-
-
 ;; North London ;P
 (setq calendar-latitude 51.5683)
 (setq calendar-longitude 0.1031)
@@ -565,3 +567,9 @@ If called with a prefix, prompts for flags to pass to ag."
   (setq markdown-open-command "open -a /Applications/Marked.app")
   (toggle-frame-maximized)
   (setq ag-executable "/usr/local/bin/ag"))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(hl-todo ((t (:foreground "blue" :underline t :weight bold)))))

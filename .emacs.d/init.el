@@ -574,6 +574,8 @@ If called with a prefix, prompts for flags to pass to ag."
 (setq calendar-latitude 51.5683)
 (setq calendar-longitude 0.1031)
 
+(maybe-install-and-require 'dockerfile-mode)
+
 (when (eq 'darwin system-type)
   (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
   (setq cider-lein-command "/usr/local/bin/lein")

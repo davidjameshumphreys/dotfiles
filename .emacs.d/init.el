@@ -498,8 +498,8 @@ If called with a prefix, prompts for flags to pass to ag."
 
 
 (defun back-window ()
-    (interactive)
-      (other-window -1))
+  (interactive)
+  (other-window -1))
 
 (bind-key* "C-x 0" 'back-window)
 

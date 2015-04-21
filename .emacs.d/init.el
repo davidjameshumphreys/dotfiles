@@ -456,6 +456,11 @@ If called with a prefix, prompts for flags to pass to ag."
             (set-face-foreground 'linum  (face-attribute 'default :background))
             (set-face-background 'linum  (face-attribute 'font-lock-comment-face :foreground))))
 
+(-map
+ (lambda (m)
+   (add-hook m (lambda () (linum-mode 1))))
+ '(cider-repl-mode-hook clojure-mode-hook emacs-lisp-mode-hook markdown-mode-hook))
+
 ;; toggle the default colours on linum mode.
 
 (setq calendar-minimum-window-height 5)

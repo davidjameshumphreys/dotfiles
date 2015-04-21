@@ -524,7 +524,10 @@ If called with a prefix, prompts for flags to pass to ag."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
 
- '(powerline-show-vc nil))
+ '(custom-enabled-themes (quote (solarized-dark)))
+ '(custom-safe-themes
+   (quote
+    ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default))))
 
 (setq bookmark-save-flag 0)
 

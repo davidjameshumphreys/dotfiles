@@ -400,6 +400,12 @@ If called with a prefix, prompts for flags to pass to ag."
 (setq guide-key/idle-delay 2)
 
 (add-hook 'clojure-mode-hook (lambda ()
+(-map
+ (lambda (m)
+   (add-hook m #'linum-mode)
+   (add-hook m #'hl-todo-mode))
+ '(clojure-mode-hook emacs-lisp-mode-hook javascript-mode-hook markdown-mode-hook))
+
                                (clj-refactor-mode 1)
                                (cljr-add-keybindings-with-prefix "C-c C-o")
                                (linum-mode 1)
@@ -496,6 +502,10 @@ If called with a prefix, prompts for flags to pass to ag."
 
 (maybe-install-and-require 'powerline)
 (powerline-center-theme)
+
+(maybe-install-and-require 'hl-todo)
+(setq hl-todo-activate-in-modes (quote (emacs-lisp-mode clojure-mode javascript-mode)))
+(setq hl-todo-keyword-faces (quote (("TODO" . "#cc9393") ("TODO:" . "#cc9393") ("DONE" . "#afd8af") ("FIXME" . "#cc9393") ("XXX" . "#cc9393"))))
 
 (defun back-window ()
     (interactive)

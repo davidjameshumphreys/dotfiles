@@ -73,6 +73,20 @@
 (setq cider-repl-history-size 1000)
 (setq cider-repl-history-file "~/.emacs.d/cider-history")
 (add-hook 'cider-repl-mode-hook 'subword-mode)
+(bind-key "M-n" 'cider-repl-forward-input cider-mode-map)
+(bind-key "M-p" 'cider-repl-backward-input cider-mode-map)
+
+(defun repl/reset ()
+  ""
+  (interactive)
+  (message (cider-interactive-eval "(dev/reset)")))
+
+(defun repl/test ()
+  ""
+  (interactive)
+  (message (cider-interactive-eval "(dev/run-all-my-tests)")))
+(cider-repl-add-shortcut "reset" #'repl/reset)
+(cider-repl-add-shortcut "test" #'repl/test)
 
 (-map
  (lambda (m)

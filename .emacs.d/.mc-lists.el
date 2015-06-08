@@ -15,6 +15,7 @@
         delete-horizontal-space
         delete-horizontal-space
         end-of-buffer
+        eval-last-sexp
         ido-switch-buffer
         indent-for-tab-command
         isearch-abort
@@ -63,8 +64,10 @@
         ag-search
         beginning-of-buffer
         cider-jump-back
+        cider-load-buffer
         cider-load-current-buffer
         cider-switch-to-repl-buffer
+        cljr-raise-sexp
         git-gutter:toggle
         isearch-backward-regexp
         isearch-delete-char

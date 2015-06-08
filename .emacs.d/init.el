@@ -88,6 +88,8 @@
 (cider-repl-add-shortcut "reset" #'repl/reset)
 (cider-repl-add-shortcut "test" #'repl/test)
 
+(setq cider-prompt-for-symbol nil)
+
 (-map
  (lambda (m)
    (add-hook m (lambda () (toggle-truncate-lines -1))))

@@ -35,7 +35,7 @@ see_line(){
 source $HOME/zaw/zaw.zsh
 bindkey '^x' zaw
 bindkey '^r' zaw-history
-#bindkey '^b' zaw-bookmark
+bindkey '^z' zaw-bookmark
 
 export LESS=-R-X
 alias DATE='date +%Y%m%d'

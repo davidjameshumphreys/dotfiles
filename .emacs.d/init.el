@@ -93,7 +93,7 @@
 (-map
  (lambda (m)
    (add-hook m (lambda () (toggle-truncate-lines -1))))
- '(clojure-mode-hook markdown-mode-hook))
+ '(markdown-mode-hook cider-repl-mode-hook))
 
 ;; Eval to buffer
 (bind-key "C-x M-e" 'cider-pprint-eval-defun-at-point cider-mode-map)
@@ -101,12 +101,9 @@
 (bind-key "C-x C-r" 'cider-repl-previous-matching-input cider-mode-map)
 (bind-key "C-x C-r" 'cider-repl-previous-matching-input cider-repl-mode-map)
 
-
-
 ;; clj-refactor
 (maybe-install-and-require 'clj-refactor)
 (diminish 'clj-refactor-mode)
-
 
 ;; align-cljlet
 (maybe-install-and-require 'align-cljlet)
@@ -117,12 +114,13 @@
 
 ;; paredit
 (maybe-install-and-require 'paredit)
-(diminish 'paredit-mode " Pe")
+(diminish 'paredit-mode "«»")
 (add-hook 'lisp-mode-hook 'paredit-mode)
 (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
 (add-hook 'scheme-mode-hook 'paredit-mode)
 (add-hook 'cider-repl-mode-hook 'paredit-mode)
 (add-hook 'clojure-mode-hook 'paredit-mode)
+(add-hook 'clojure-mode-hook 'yas-minor-mode)
 
 ;; utop / OCaml
 ;; (maybe-install-and-require 'utop)
@@ -421,6 +419,8 @@ If called with a prefix, prompts for flags to pass to ag."
 (setq guide-key/popup-window-position 'bottom)
 (setq guide-key/idle-delay 2)
 
+(maybe-install-and-require 'hl-todo)
+
 (-map
  (lambda (m)
    (add-hook m #'linum-mode)
@@ -475,7 +475,7 @@ If called with a prefix, prompts for flags to pass to ag."
 (-map
  (lambda (m)
    (add-hook m (lambda () (linum-mode 1))))
- '(cider-repl-mode-hook clojure-mode-hook emacs-lisp-mode-hook markdown-mode-hook))
+ '(clojure-mode-hook emacs-lisp-mode-hook markdown-mode-hook))
 
 ;; toggle the default colours on linum mode.
 
@@ -518,10 +518,14 @@ If called with a prefix, prompts for flags to pass to ag."
 
 (maybe-install-and-require 'powerline)
 (powerline-center-theme)
-(maybe-install-and-require 'hl-todo)
-(setq hl-todo-activate-in-modes (quote (emacs-lisp-mode clojure-mode javascript-mode)))
-(setq hl-todo-keyword-faces (quote (("TODO" . "#cc9393") ("TODO:" . "#cc9393") ("DONE" . "#afd8af") ("FIXME" . "#cc9393") ("XXX" . "#cc9393"))))
 
+(global-hl-todo-mode)
+(setq hl-todo-activate-in-modes (quote (emacs-lisp-mode clojure-mode javascript-mode)))
+;;TODO: simplify this.
+(setq hl-todo-keyword-faces (quote (("TODO" . "#cc9393")  ("TODO:" . "#cc9393")
+                                    ("DONE" . "#afd8af")  ("DONE:" . "#afd8af")
+                                    ("FIXME" . "#cc9393") ("FIXME:" . "#cc9393")
+                                    ("XXX" . "#cc9393")   ("XXX:" . "#cc9393") )))
 
 (defun back-window ()
   (interactive)
@@ -532,18 +536,19 @@ If called with a prefix, prompts for flags to pass to ag."
 (bind-key "C-c t"   'clojure-jump-between-tests-and-code cider-mode-map)
 (bind-key "C-c C-t" 'cider-test-run-tests cider-mode-map)
 (bind-key "C-c M-r" 'cider-repl-previous-matching-input)
+(setq powerline-default-separator nil)
+(setq powerline-utf-8-separator-left 62)
+(setq powerline-utf-8-separator-right 60)
 
-;; toggle-truncate-lines
+;;TODO: add a key for  'toggle-truncate-lines
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
-
- '(custom-enabled-themes (quote (solarized-dark)))
- '(custom-safe-themes
-   (quote
-    ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default))))
+ '(custom-enabled-themes (quote (solarized-dark cyberpunk)))
+ '(custom-safe-themes (quote ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
+ '(projectile-globally-ignored-directories (quote (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" "front-end-tests/target/"))))
 
 (setq bookmark-save-flag 0)
 
@@ -559,7 +564,7 @@ If called with a prefix, prompts for flags to pass to ag."
   "A friendlier visual bell effect."
   (invert-face 'mode-line)
   (run-with-timer 0.3 nil 'invert-face 'mode-line))
-;;todo: for the C-<- and C-->  do a bell first.
+;;TODO: for the C-<- and C-->  do a bell first.
 
 (setq visible-bell nil
       ring-bell-function 'mode-line-visible-bell)
@@ -571,7 +576,7 @@ If called with a prefix, prompts for flags to pass to ag."
 (maybe-install-and-require 'help-mode+)
 (maybe-install-and-require 'help-fns+)
 (maybe-install-and-require 'swiper)
-(bind-key "C-c M-s" 'swiper)
+(bind-key "C-x M-s" 'swiper)
 (maybe-install-and-require 'aggressive-indent)
 (bind-key "C-c C-q" 'cider-quit clojure-mode-map)
 
@@ -591,6 +596,14 @@ If called with a prefix, prompts for flags to pass to ag."
 (setq calendar-longitude 0.1031)
 
 (maybe-install-and-require 'dockerfile-mode)
+
+(maybe-install-and-require 'projectile)
+(diminish 'projectile-mode "🚀 ")
+(projectile-global-mode t)
+
+(maybe-install-and-require 'json-mode)
+(maybe-install-and-require 'json-snatcher)
+(maybe-install-and-require 'jumblr)
 
 (when (eq 'darwin system-type)
   (maybe-install-and-require 'color-theme)
@@ -615,3 +628,5 @@ If called with a prefix, prompts for flags to pass to ag."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(hl-todo ((t (:foreground "blue" :underline t :weight bold)))))
+
+(maybe-install-and-require 'smartparens)

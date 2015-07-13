@@ -435,7 +435,7 @@ If called with a prefix, prompts for flags to pass to ag."
                                (guide-key/add-local-guide-key-sequence "C-c")
                                (set-face-foreground 'font-lock-function-name-face "#808080")))
 
-(bind-key* "C-c *" (lambda () (interactive) (switch-to-buffer-other-window "*scratch*")))
+;;(bind-key* "C-c *" (lambda () (interactive) (switch-to-buffer-other-window "*scratch*")))
 
 (setq initial-scratch-message "
 	rf 'cljr-rename-file

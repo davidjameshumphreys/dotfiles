@@ -424,7 +424,7 @@ If called with a prefix, prompts for flags to pass to ag."
  (lambda (m)
    (add-hook m #'linum-mode)
    (add-hook m #'hl-todo-mode))
- '(clojure-mode-hook emacs-lisp-mode-hook javascript-mode-hook markdown-mode-hook))
+ '(clojure-mode-hook emacs-lisp-mode-hook javascript-mode-hook markdown-mode-hook puppet-mode-hook javascript-mode-hook))
 
 (add-hook 'clojure-mode-hook (lambda ()
                                (clj-refactor-mode 1)

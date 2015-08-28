@@ -34,12 +34,14 @@
         org-kill-line
         org-yank
         paredit-backslash
+        paredit-backward
         paredit-backward-kill-word
         paredit-close-curly
         paredit-close-round
         paredit-close-round-and-newline
         paredit-close-square
         paredit-doublequote
+        paredit-forward
         paredit-forward-delete
         paredit-forward-kill-word
         paredit-forward-slurp-sexp
@@ -66,6 +68,7 @@
         cider-jump-back
         cider-load-buffer
         cider-load-current-buffer
+        cider-repl-set-ns
         cider-switch-to-repl-buffer
         cljr-raise-sexp
         git-gutter:toggle

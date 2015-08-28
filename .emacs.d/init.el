@@ -140,7 +140,6 @@
 (bind-key* "C-c C-b" 'magit-blame-mode)
 (setq magit-save-some-buffers 'dontask)
 (setq magit-diff-options (quote ("--ignore-space-change" "--ignore-all-space")))
-(diminish 'magit-auto-revert-mode)
 
 ;; git gutter
 (maybe-install-and-require 'git-gutter)
@@ -521,7 +520,7 @@ If called with a prefix, prompts for flags to pass to ag."
 
 (global-hl-todo-mode)
 (setq hl-todo-activate-in-modes (quote (emacs-lisp-mode clojure-mode javascript-mode)))
-;;TODO: simplify this.
+;;TODO simplify this.
 (setq hl-todo-keyword-faces (quote (("TODO" . "#cc9393")  ("TODO:" . "#cc9393")
                                     ("DONE" . "#afd8af")  ("DONE:" . "#afd8af")
                                     ("FIXME" . "#cc9393") ("FIXME:" . "#cc9393")

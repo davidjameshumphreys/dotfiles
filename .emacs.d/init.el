@@ -434,34 +434,10 @@ If called with a prefix, prompts for flags to pass to ag."
                                (guide-key/add-local-guide-key-sequence "C-c")
                                (set-face-foreground 'font-lock-function-name-face "#808080")))
 
-;;(bind-key* "C-c *" (lambda () (interactive) (switch-to-buffer-other-window "*scratch*")))
+(setq initial-scratch-message "")
 
-(setq initial-scratch-message "
-	rf 'cljr-rename-file
-	ru 'cljr-replace-use
-	au 'cljr-add-use-to-ns
-	ar 'cljr-add-require-to-ns
-	ai 'cljr-add-import-to-ns
-	sn 'cljr-sort-ns
-	rr 'cljr-remove-unused-requires
-	sr 'cljr-stop-referring
-	th 'cljr-thread
-	uw 'cljr-unwind
-	ua 'cljr-unwind-all
-	il 'cljr-introduce-let
-	el 'cljr-expand-let
-	ml 'cljr-move-to-let
-	mf 'cljr-move-form
-	tf 'cljr-thread-first-all
-	tl 'cljr-thread-last-all
-	cp 'cljr-cycle-privacy
-	cc 'cljr-cycle-coll
-	cs 'cljr-cycle-stringlike
-	ci 'cljr-cycle-if
-	ad 'cljr-add-declaration
-	dk 'cljr-destructure-keys
-	pc 'cljr-project-clean
-	")
+(maybe-install-and-require 'avy)
+(bind-key* "M-;" 'avy-goto-char)
 
 (setq fill-column 80)
 (setq comment-auto-fill-only-comments t)
@@ -530,11 +506,21 @@ If called with a prefix, prompts for flags to pass to ag."
   (interactive)
   (other-window -1))
 
+(defun server-buffer ()
+  (interactive)
+  (switch-to-buffer-other-window (format "*nrepl-server %s*" (projectile-project-name))))
+
+(defun repl-buffer ()
+  (interactive)
+  (switch-to-buffer-other-window (format "*cider-repl %s*" (projectile-project-name))))
+
 (bind-key* "C-x 0" 'back-window)
 
 (bind-key "C-c t"   'clojure-jump-between-tests-and-code cider-mode-map)
 (bind-key "C-c C-t" 'cider-test-run-tests cider-mode-map)
 (bind-key "C-c M-r" 'cider-repl-previous-matching-input)
+(bind-key "C-c *" 'server-buffer)
+(bind-key "C-c 8" 'repl-buffer)
 (setq powerline-default-separator nil)
 (setq powerline-utf-8-separator-left 62)
 (setq powerline-utf-8-separator-right 60)
@@ -546,8 +532,13 @@ If called with a prefix, prompts for flags to pass to ag."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes (quote (solarized-dark cyberpunk)))
- '(custom-safe-themes (quote ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
- '(projectile-globally-ignored-directories (quote (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" "front-end-tests/target/"))))
+ '(custom-safe-themes
+   (quote
+    ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
+ '(git-commit-finish-query-functions nil)
+ '(projectile-globally-ignored-directories
+   (quote
+    (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" "front-end-tests/target/"))))
 
 (setq bookmark-save-flag 0)
 

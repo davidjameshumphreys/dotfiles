@@ -538,7 +538,7 @@ If called with a prefix, prompts for flags to pass to ag."
  '(git-commit-finish-query-functions nil)
  '(projectile-globally-ignored-directories
    (quote
-    (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" "front-end-tests/target/"))))
+    (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" "resources/public/js/compiled/"))))
 
 (setq bookmark-save-flag 0)
 

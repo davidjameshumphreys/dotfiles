@@ -101,10 +101,6 @@
 (bind-key "C-x C-r" 'cider-repl-previous-matching-input cider-mode-map)
 (bind-key "C-x C-r" 'cider-repl-previous-matching-input cider-repl-mode-map)
 
-;; clj-refactor
-(maybe-install-and-require 'clj-refactor)
-(diminish 'clj-refactor-mode)
-
 ;; align-cljlet
 (maybe-install-and-require 'align-cljlet)
 (bind-key* "C-c C-a" 'align-cljlet)
@@ -427,8 +423,6 @@ If called with a prefix, prompts for flags to pass to ag."
  '(clojure-mode-hook emacs-lisp-mode-hook javascript-mode-hook markdown-mode-hook puppet-mode-hook javascript-mode-hook))
 
 (add-hook 'clojure-mode-hook (lambda ()
-                               (clj-refactor-mode 1)
-                               (cljr-add-keybindings-with-prefix "C-c C-o")
                                (linum-mode 1)
                                (guide-key/add-local-guide-key-sequence "C-x")
                                (guide-key/add-local-guide-key-sequence "C-c")

@@ -614,3 +614,22 @@ If called with a prefix, prompts for flags to pass to ag."
  '(hl-todo ((t (:foreground "blue" :underline t :weight bold)))))
 
 (maybe-install-and-require 'smartparens)
+
+(defun live-paredit-delete-horizontal-space ()
+  (interactive)
+  (just-one-space -1)
+  (paredit-backward-delete))
+
+(defun live-paredit-tidy-trailing-parens ()
+  (interactive)
+  (save-excursion
+    (while (ignore-errors (paredit-forward-up) t))
+    (backward-char)
+    (live-paredit-delete-horizontal-space)
+    (while
+        (or
+         (eq (char-before) ?\))
+         (eq (char-before) ?\})
+         (eq (char-before) ?\]))
+      (backward-char)
+      (live-paredit-delete-horizontal-space))))

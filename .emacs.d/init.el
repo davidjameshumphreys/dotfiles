@@ -20,6 +20,13 @@
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
+(add-to-list 'package-archives
+             '("melpa-stable" . "http://stable.melpa.org/") t)
+
+(when (boundp 'package-pinned-packages)
+  (setq package-pinned-packages
+        '((cider . "melpa-stable"))))
+
 (package-initialize)
 
 (when (not package-archive-contents)
@@ -532,7 +539,8 @@ If called with a prefix, prompts for flags to pass to ag."
  '(git-commit-finish-query-functions nil)
  '(projectile-globally-ignored-directories
    (quote
-    (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" "resources/public/js/compiled/"))))
+    (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" "resources/public/js/compiled/")))
+ '(projectile-globally-ignored-files (quote ("TAGS" ".DS_Store"))))
 
 (setq bookmark-save-flag 0)
 

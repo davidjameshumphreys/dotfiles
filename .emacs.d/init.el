@@ -588,7 +588,6 @@ If called with a prefix, prompts for flags to pass to ag."
 (setq calendar-longitude 0.1031)
 
 (maybe-install-and-require 'dockerfile-mode)
-
 (maybe-install-and-require 'projectile)
 (diminish 'projectile-mode "🚀 ")
 (projectile-global-mode t)
@@ -596,6 +595,11 @@ If called with a prefix, prompts for flags to pass to ag."
 (maybe-install-and-require 'json-mode)
 (maybe-install-and-require 'json-snatcher)
 (maybe-install-and-require 'jumblr)
+
+(maybe-install-and-require 'haskell-mode)
+(add-hook 'haskell-mode-hook 'haskell-indent-mode)
+(add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+(add-hook 'haskell-mode-hook 'linum-mode)
 
 (when (eq 'darwin system-type)
   (maybe-install-and-require 'color-theme)

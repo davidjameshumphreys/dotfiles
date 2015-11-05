@@ -72,6 +72,7 @@
         cider-switch-to-repl-buffer
         cljr-raise-sexp
         git-gutter:toggle
+        haskell-indent-align-guards-and-rhs
         isearch-backward-regexp
         isearch-delete-char
         paredit-backward-slurp-sexp

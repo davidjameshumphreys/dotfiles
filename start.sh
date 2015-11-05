@@ -1,4 +1,4 @@
-H=/home/david
+H=~david
 
 for i in .gitconfig .tmux.conf .bash_aliases .zshrc .oh-my-zsh .emacs.d .lein/profiles.clj .lein/init.clj .ssh/config zaw; do
     ln -fs  "${PWD}/$i" "${H}/$i"

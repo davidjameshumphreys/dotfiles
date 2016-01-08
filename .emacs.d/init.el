@@ -654,3 +654,12 @@ If called with a prefix, prompts for flags to pass to ag."
          (eq (char-before) ?\]))
       (backward-char)
       (live-paredit-delete-horizontal-space))))
+
+(maybe-install-and-require 'scala-mode2)
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((clojure . t)
+   (scala . t)
+   (sh . t)
+   ;(pony . t)
+   ))

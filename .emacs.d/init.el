@@ -21,7 +21,7 @@
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 (add-to-list 'package-archives
-             '("melpa-stable" . "http://stable.melpa.org/") t)
+             '("melpa-stable" . "http://stable.melpa.org/packages/") t)
 
 (when (boundp 'package-pinned-packages)
   (setq package-pinned-packages
@@ -96,6 +96,8 @@
 (cider-repl-add-shortcut "test" #'repl/test)
 
 (setq cider-prompt-for-symbol nil)
+
+(maybe-install-and-require 'dash)
 
 (-map
  (lambda (m)
@@ -530,11 +532,13 @@ If called with a prefix, prompts for flags to pass to ag."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(cider-prompt-for-project-on-connect nil)
  '(custom-enabled-themes (quote (solarized-dark cyberpunk)))
  '(custom-safe-themes
    (quote
     ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(git-commit-finish-query-functions nil)
+ '(org-confirm-babel-evaluate nil)
  '(projectile-globally-ignored-directories
    (quote
     (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" "resources/public/js/compiled/")))
@@ -571,7 +575,7 @@ If called with a prefix, prompts for flags to pass to ag."
 (bind-key "C-c C-q" 'cider-quit clojure-mode-map)
 
 (maybe-install-and-require 'mmm-mode)
-(maybe-install-and-require 'dash)
+
 
 (-map
  (lambda (m)

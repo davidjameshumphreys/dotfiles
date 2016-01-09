@@ -65,6 +65,7 @@
       '(
         ag-search
         beginning-of-buffer
+        cider-find-ns
         cider-jump-back
         cider-load-buffer
         cider-load-current-buffer

@@ -253,9 +253,10 @@ If called with a prefix, prompts for flags to pass to ag."
 (setq display-time-load-average t)
 (display-time)
 
-(setq global-mode-string
-      (append global-mode-string
-              '((:eval (concat "[⁋" (getenv "AM_PROFILE") "]")))))
+;; (setq global-mode-string
+;;       (append global-mode-string
+;;               '((:eval (concat "[⁋" (getenv "AM_PROFILE") "]")))))
+
 ;; jvm-mode
 (use-package jvm-mode
   :pin melpa-stable
@@ -317,7 +318,6 @@ If called with a prefix, prompts for flags to pass to ag."
 (set-selection-coding-system 'utf-8)
 (set-input-method nil)
 
-
 (setq frame-title-format "%b")
 (set-default 'truncate-lines t)
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -328,8 +328,9 @@ If called with a prefix, prompts for flags to pass to ag."
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; uniquify
-(require 'uniquify)
-(setq uniquify-buffer-name-style 'forward)
+(use-package uniquify
+  :config
+  (setq uniquify-buffer-name-style 'forward))
 
 ;; match parens
 (setq blink-matching-paren-distance nil)
@@ -392,15 +393,6 @@ If called with a prefix, prompts for flags to pass to ag."
 (use-package mustache-mode)
 
 (bind-key* "M-~" 'ibuffer)
-
-;; (maybe-install-and-require 'ace-jump-mode)
-;; (autoload 'ace-jump-mode "ace-jump-mode" "Emacs quick move minor mode" t)
-;; (autoload 'ace-jump-mode-pop-mark "ace-jump-mode" "Ace jump back" t)
-;; (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
-;; (eval-after-load "ace-jump-mode"
-;;   '(ace-jump-mode-enable-mark-sync))
-;; (define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
-
 (bind-key* "C-c l" 'goto-line)
 
 (use-package keyfreq
@@ -445,6 +437,7 @@ If called with a prefix, prompts for flags to pass to ag."
 (setq fill-column 80)
 (setq comment-auto-fill-only-comments t)
 (auto-fill-mode t)
+
 (add-hook 'linum-before-numbering-hook
           (lambda ()
             (set-face-foreground 'linum  (face-attribute 'default :background))
@@ -457,6 +450,7 @@ If called with a prefix, prompts for flags to pass to ag."
 
 (setq calendar-minimum-window-height 5)
 (setq vc-follow-symlinks nil)
+
 (use-package recentf
   :config
   (recentf-mode 1)
@@ -489,10 +483,6 @@ If called with a prefix, prompts for flags to pass to ag."
 (defun deft-unused-slug ()
   (uuid-to-stringy (uuid-create)))
 
-(add-hook 'ace-jump-mode-before-jump-hook
-          (lambda ()
-            (set-face-foreground 'ace-jump-face-foreground "blue")))
-
 (use-package powerline
   :config
   (powerline-center-theme)
@@ -512,7 +502,6 @@ If called with a prefix, prompts for flags to pass to ag."
 
 (bind-key* "C-x 0" 'back-window)
 
-;;NO longer defined (bind-key "C-c t"   'clojure-jump-between-tests-and-code cider-mode-map)
 (bind-key "C-c C-t" 'cider-test-run-tests cider-mode-map)
 (bind-key "C-c M-r" 'cider-repl-previous-matching-input)
 (bind-key "C-c *" 'server-buffer)
@@ -529,7 +518,8 @@ If called with a prefix, prompts for flags to pass to ag."
     ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(ediff-merge-split-window-function (quote split-window-horizontally))
  '(git-commit-finish-query-functions nil)
- '(org-confirm-babel-evaluate nil))
+ '(org-confirm-babel-evaluate nil)
+ '(visible-bell t))
 
 (setq bookmark-save-flag 0)
 

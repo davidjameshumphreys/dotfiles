@@ -66,6 +66,8 @@
   (unbind-key "C-x C-r")
   (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
   (add-hook 'cider-repl-mode-hook 'cider-turn-on-eldoc-mode)
+  (add-hook 'cider-repl-mode-hook #'company-mode)
+  (add-hook 'cider-mode-hook #'company-mode)
   :bind
   (("M-n"     . cider-repl-forward-input)
    ("M-p"     . cider-repl-backward-input)
@@ -198,8 +200,10 @@ If called with a prefix, prompts for flags to pass to ag."
   (yas-load-directory "~/.emacs.d/snippets"))
 
 (use-package company
-  :diminish "")
-;;(add-hook 'after-init-hook 'global-company-mode)
+  :diminish ""
+  :config
+  (add-hook 'after-init-hook 'global-company-mode)
+  (global-set-key (kbd "M-TAB") #'company-complete))
 
 (use-package browse-kill-ring
   :pin melpa-stable
@@ -617,6 +621,13 @@ If called with a prefix, prompts for flags to pass to ag."
 
 (use-package smartparens)
 
+(use-package company
+  :ensure t
+  :pin melpa-stable
+  :diminish company-mode
+  :config
+  (global-company-mode))
+
 (defun live-paredit-delete-horizontal-space ()
   (interactive)
   (just-one-space -1)
@@ -646,9 +657,50 @@ If called with a prefix, prompts for flags to pass to ag."
    ;;(pony . t)
    ))
 
+(defun cider-repl--position-in-history (start-pos direction regexp)
+  "Return the position of the history item starting at START-POS.
+Search in DIRECTION for REGEXP.
+Return -1 resp the length of the history if no item matches."
+  ;; Loop through the history list looking for a matching line
+  (let* ((step (cl-ecase direction
+                 (forward -1)
+                 (backward 1)))
+         (history cider-repl-input-history)
+         (len (length history)))
+    (cl-loop for pos = (+ start-pos step) then (+ pos step)
+             if (< pos 0) return -1
+             if (<= len pos) return len
+             if (string-match-p regexp (nth pos history)) return pos)))
+
+
 
 (use-package echo-bell
   :config
   (echo-bell-mode t)
   (setq echo-bell-background "dark red")
   (setq echo-bell-string "D'oh!"))
+
+(use-package s)
+
+(defun filter-repl-history (&optional arg)
+  (interactive)
+  (-filter
+   (lambda (s)
+     (s-matches? (if arg
+                     arg
+                   (buffer-substring cider-repl-input-start-mark (point))) s))
+   cider-repl-input-history))
+
+(defun company-repl-history
+    (command &optional arg)
+  (interactive (list 'interactive))
+  (cl-case command
+    (interactive (company-begin-backend 'company-repl-history))
+    (prefix (and (eq major-mode 'cider-repl-mode)
+                 (buffer-substring cider-repl-input-start-mark (point))))
+
+    ;;    (or  "")
+    (candidates
+     (filter-repl-history arg))))
+
+(add-to-list 'company-backends 'company-repl-history)

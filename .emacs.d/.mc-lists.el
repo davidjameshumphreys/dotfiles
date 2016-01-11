@@ -4,6 +4,7 @@
 (setq mc/cmds-to-run-for-all
       '(
         align-cljlet
+        avy-goto-char
         cider-repl-return
         cljr-cycle-stringlike
         cljr-slash

@@ -13,249 +13,232 @@
   (menu-bar-mode 0))
 
 ;; =============================================================
-;; package
+;; package preamble
 
 (require 'package)
 
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
-
-(add-to-list 'package-archives
-             '("melpa-stable" . "http://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
 
 (when (boundp 'package-pinned-packages)
   (setq package-pinned-packages
-        '((cider . "melpa-stable"))))
+        '((use-package . "melpa-stable"))))
 
 (package-initialize)
 
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-(defun maybe-install-and-require (p)
-  (when (not (package-installed-p p))
-    (package-install p))
-  (require p))
+(when (not (package-installed-p 'use-package))
+  (package-install 'use-package))
+(require 'use-package)
+(require 'diminish)
+(require 'bind-key)
+;; ================================================================
+;; package preamble finished.
 
-(maybe-install-and-require 'diminish)
-(maybe-install-and-require 'bind-key)
-;; =============================================================
-;; Major modes
+(use-package clojure-mode
+  :ensure t
+  :pin melpa-stable
+  :mode "\\.cljs$"
+  :config
+  (add-hook 'clojure-mode-hook 'yas-minor-mode)
+  (add-hook 'clojure-mode-hook (lambda ()
+                                 (clj-refactor-mode 1)
+                                 (cljr-add-keybindings-with-prefix "C-c C-o")
+                                 (linum-mode 1)
+                                 (guide-key/add-local-guide-key-sequence "C-x")
+                                 (guide-key/add-local-guide-key-sequence "C-c")
+                                 (set-face-foreground 'font-lock-function-name-face "#808080"))))
 
-;; Clojure
-(maybe-install-and-require 'clojure-mode)
-(setq auto-mode-alist (cons '("\\.cljs$" . clojure-mode) auto-mode-alist))
+(use-package cider
+  :ensure t
+  :defer t
+  :pin melpa-stable
+  :diminish (cider-mode . "c[]")
+  :config
+  (setq cider-repl-wrap-history t)
+  (setq cider-repl-history-size 1000)
+  (setq cider-repl-history-file "~/.emacs.d/cider-history")
+  (setq cider-prompt-for-project-on-connect nil)
+  (setq cider-prompt-for-symbol nil)
+  (add-hook 'cider-repl-mode-hook 'subword-mode)
+  (unbind-key "C-x C-r")
+  (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+  (add-hook 'cider-repl-mode-hook 'cider-turn-on-eldoc-mode)
+  :bind
+  (("M-n"     . cider-repl-forward-input)
+   ("M-p"     . cider-repl-backward-input)
+   ("C-x M-e" . cider-pprint-eval-defun-at-point)
+   ("C-x C-r" . cider-repl-previous-matching-input)))
 
-;; Tuareg / OCaml
-(setq save-abbrevs nil)
-(diminish 'abbrev-mode)
-(maybe-install-and-require 'tuareg)
-(add-hook 'tuareg-mode-hook 'tuareg-imenu-set-imenu)
-(setq auto-mode-alist
-      (append '(("\\.ml[ily]?$" . tuareg-mode)
-                ("\\.topml$" . tuareg-mode))
-              auto-mode-alist))
+(use-package clj-refactor
+  :diminish "")
 
-;; markdown
-(maybe-install-and-require 'markdown-mode)
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+(use-package align-cljlet
+  :bind (("C-c C-a" . align-cljlet)))
 
-;; Puppet
-(maybe-install-and-require 'puppet-mode)
+(use-package dash
+  :ensure t)
 
-;; Yaml
-(maybe-install-and-require 'yaml-mode)
+;; paredit
+(use-package paredit
+  :diminish "«»"
+  :config
+  (-map
+   (lambda (m)
+     (add-hook m 'paredit-mode))
+   '(lisp-mode-hook
+     emacs-lisp-mode-hook
+     scheme-mode-hook
+     cider-repl-mode-hook
+     clojure-mode-hook)))
 
-;; Restclient
-(maybe-install-and-require 'restclient)
-(add-to-list 'auto-mode-alist '("\\.http\\'" . restclient-mode))
+(use-package markdown-mode
+  :ensure t
+  :pin melpa-stable
+  :mode "\\.md")
 
-;; =============================================================
-;; Minor modes
+(use-package puppet-mode
+  :defer t
+  :pin melpa-stable)
 
-;; Cider
-(maybe-install-and-require 'cider)
-(diminish 'cider-mode " Cdr")
-(setq cider-repl-wrap-history t)
-(setq cider-repl-history-size 1000)
-(setq cider-repl-history-file "~/.emacs.d/cider-history")
-(add-hook 'cider-repl-mode-hook 'subword-mode)
-(bind-key "M-n" 'cider-repl-forward-input cider-mode-map)
-(bind-key "M-p" 'cider-repl-backward-input cider-mode-map)
+(use-package yaml-mode)
+(use-package restclient
+  :mode "\\.http\\'")
 
-(defun repl/reset ()
-  ""
-  (interactive)
-  (message (cider-interactive-eval "(dev/reset)")))
+;; (defun repl/reset ()
+;;   ""
+;;   (interactive)
+;;   (message (cider-interactive-eval "(dev/reset)")))
 
-(defun repl/test ()
-  ""
-  (interactive)
-  (message (cider-interactive-eval "(dev/run-all-my-tests)")))
-(cider-repl-add-shortcut "reset" #'repl/reset)
-(cider-repl-add-shortcut "test" #'repl/test)
+;; (defun repl/test ()
+;;   ""
+;;   (interactive)
+;;   (message (cider-interactive-eval "(dev/run-all-my-tests)")))
+;; (cider-repl-add-shortcut "reset" #'repl/reset)
+;; (cider-repl-add-shortcut "test" #'repl/test)
 
-(setq cider-prompt-for-symbol nil)
-
-(maybe-install-and-require 'dash)
 
 (-map
  (lambda (m)
    (add-hook m (lambda () (toggle-truncate-lines -1))))
  '(markdown-mode-hook cider-repl-mode-hook))
 
-;; Eval to buffer
-(bind-key "C-x M-e" 'cider-pprint-eval-defun-at-point cider-mode-map)
-(unbind-key "C-x C-r")
-(bind-key "C-x C-r" 'cider-repl-previous-matching-input cider-mode-map)
-(bind-key "C-x C-r" 'cider-repl-previous-matching-input cider-repl-mode-map)
+(use-package magit
+  :ensure t
+  :pin melpa-stable
+  :bind (("C-c C-g" . magit-status)
+         ("C-c C-b" . magit-blame-mode))
+  :config
+  (setq magit-save-some-buffers 'dontask)
+  (setq magit-diff-options (quote ("--ignore-space-change" "--ignore-all-space")))
+  (setq magit-revert-buffers 'silent)
+  (setq magit-diff-refine-hunk t))
 
-;; clj-refactor
-(maybe-install-and-require 'clj-refactor)
-(diminish 'clj-refactor-mode)
+(use-package git-gutter
+  :ensure t
+  :pin melpa-stable
+  :diminish "GG"
+  :bind (("C-x C-g" . git-gutter:toggle)))
 
-;; align-cljlet
-(maybe-install-and-require 'align-cljlet)
-(bind-key* "C-c C-a" 'align-cljlet)
-
-;; slamhound
-(maybe-install-and-require 'slamhound)
-
-;; paredit
-(maybe-install-and-require 'paredit)
-(diminish 'paredit-mode "«»")
-(add-hook 'lisp-mode-hook 'paredit-mode)
-(add-hook 'emacs-lisp-mode-hook 'paredit-mode)
-(add-hook 'scheme-mode-hook 'paredit-mode)
-(add-hook 'cider-repl-mode-hook 'paredit-mode)
-(add-hook 'clojure-mode-hook 'paredit-mode)
-(add-hook 'clojure-mode-hook 'yas-minor-mode)
-
-;; utop / OCaml
-;; (maybe-install-and-require 'utop)
-;; (autoload 'utop-setup-ocaml-buffer "utop" "Toplevel for OCaml" t)
-;; (add-hook 'tuareg-mode-hook 'utop-setup-ocaml-buffer)
-
-;; merlin / OCaml
-;; (maybe-install-and-require 'merlin)
-;; (diminish 'merlin-mode "MRL")
-;; (add-hook 'tuareg-mode-hook 'merlin-mode)
-;; (setq merlin-use-auto-complete-mode t)
-;; (setq merlin-error-after-save nil)
-
-;; Magit
-(maybe-install-and-require 'magit)
-(bind-key* "C-c C-g" 'magit-status)
-(bind-key* "C-c C-b" 'magit-blame-mode)
-(setq magit-save-some-buffers 'dontask)
-(setq magit-diff-options (quote ("--ignore-space-change" "--ignore-all-space")))
-
-;; git gutter
-(maybe-install-and-require 'git-gutter)
-(diminish 'git-gutter-mode "GG")
-;;(global-git-gutter-mode t)
-(bind-key* "C-x C-g" 'git-gutter:toggle)
-
-;; silver searcher
-(maybe-install-and-require 'ag)
-(setq ag-highlight-search t)
-(setq ag-reuse-buffers t)
-
-(defun ag-search (string file-regex directory)
-  "Search using ag in a given DIRECTORY (default: project root) and file type
+(use-package ag
+  :config
+  (setq ag-highlight-search t)
+  (setq ag-reuse-buffers t)
+  (setq ag-arguments '("--ignore=*build/js*" "--line-number" "--smart-case" "--nogroup" "--column" "--"))
+  (defun ag-search (string file-regex directory)
+    "Search using ag in a given DIRECTORY (default: project root) and file type
 regex FILE-REGEX for a given search STRING, with STRING defaulting to the
 symbol under point.
 
 If called with a prefix, prompts for flags to pass to ag."
-  (interactive (list (read-from-minibuffer "Search string: " (ag/dwim-at-point))
-                     (read-from-minibuffer "In filenames matching PCRE: " (ag/buffer-extension-regex))
-                     (read-directory-name "Directory: " (ag/project-root default-directory))))
-  (ag/search string directory :file-regex file-regex))
-(bind-key* "C-x M-f" 'ag-search)
+    (interactive (list (read-from-minibuffer "Search string: " (ag/dwim-at-point))
+                       (read-from-minibuffer "In filenames matching PCRE: " (ag/buffer-extension-regex))
+                       (read-directory-name "Directory: " (ag/project-root default-directory))))
+    (ag/search string directory :file-regex file-regex))
+  :bind (("C-x M-f" . ag-search)))
 
 ;; eldoc
 (diminish 'eldoc-mode "ED")
-(add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
-(add-hook 'cider-repl-mode-hook 'cider-turn-on-eldoc-mode)
 
 ;; hl-sexp
-(maybe-install-and-require 'hl-sexp)
-(add-hook 'clojure-mode-hook 'hl-sexp-mode)
-(add-hook 'lisp-mode-hook 'hl-sexp-mode)
-(add-hook 'scheme-mode-hook 'hl-sexp-mode)
-(add-hook 'emacs-lisp-mode-hook 'hl-sexp-mode)
+(use-package hl-sexp
+  :config
+  (add-hook 'clojure-mode-hook 'hl-sexp-mode)
+  (add-hook 'emacs-lisp-mode-hook 'hl-sexp-mode))
 
-;; idle-highlight-mode
-(maybe-install-and-require 'idle-highlight-mode)
-(add-hook 'clojure-mode-hook 'idle-highlight-mode)
-(add-hook 'lisp-mode-hook 'idle-highlight-mode)
-(add-hook 'scheme-mode-hook 'idle-highlight-mode)
-(add-hook 'emacs-lisp-mode-hook 'idle-highlight-mode)
+(use-package idle-highlight-mode
+  :config
+  (add-hook 'clojure-mode-hook 'idle-highlight-mode)
+  (add-hook 'lisp-mode-hook 'idle-highlight-mode)
+  (add-hook 'scheme-mode-hook 'idle-highlight-mode)
+  (add-hook 'emacs-lisp-mode-hook 'idle-highlight-mode))
 
-;; Golden Ratio
-(maybe-install-and-require 'golden-ratio)
-(diminish 'golden-ratio-mode " φ")
-(golden-ratio-mode 1)
-(add-to-list 'golden-ratio-exclude-modes "ediff-mode")
-(add-to-list 'golden-ratio-exclude-modes "calendar-mode")
-(add-to-list 'golden-ratio-exclude-modes "undo-tree-visualizer")
+(use-package golden-ratio
+  :diminish " φ"
+  :config
+  (golden-ratio-mode 1)
+  (add-to-list 'golden-ratio-exclude-modes "ediff-mode")
+  (add-to-list 'golden-ratio-exclude-modes "calendar-mode")
+  (add-to-list 'golden-ratio-exclude-modes "undo-tree-visualizer"))
 
-;; undo-tree
-(maybe-install-and-require 'undo-tree)
-(diminish 'undo-tree-mode " ⎌")
-(global-undo-tree-mode 1)
-(global-set-key (kbd "C-c M-z") 'undo-tree-visualize)
+(use-package undo-tree
+  :diminish " ⎌"
+  :bind ("C-c M-z" . undo-tree-visualize)
+  :config
+  (global-undo-tree-mode 1))
 
-;; yasnippet
-(maybe-install-and-require 'yasnippet)
-(diminish 'yas-minor-mode " Y")
-(maybe-install-and-require 'clojure-snippets)
-(yas-global-mode -1)
-(add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
-(yas-load-directory "~/.emacs.d/snippets")
+(use-package yasnippet
+  :diminish (yas-minor-mode . " Y")
 
-;; company mode
-(maybe-install-and-require 'company)
-(diminish 'company-mode)
+  :config
+  (yas-global-mode -1)
+  (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
+  (yas-load-directory "~/.emacs.d/snippets"))
+
+(use-package company
+  :diminish "")
 ;;(add-hook 'after-init-hook 'global-company-mode)
 
-;; browse-kill-ring
-(maybe-install-and-require 'browse-kill-ring)
-(browse-kill-ring-default-keybindings)
+(use-package browse-kill-ring
+  :pin melpa-stable
+  :config
+  (browse-kill-ring-default-keybindings))
 
-;; multiple cursors
-(maybe-install-and-require 'multiple-cursors)
-(bind-key* "C-c ."     'mc/mark-next-like-this)
-(bind-key* "C-c ,"     'mc/mark-previous-like-this)
-(bind-key* "C-c M-."   'mc/mark-all-like-this)
-(bind-key* "C-c M-SPC" 'mc/edit-lines)
-(bind-key* "C-c M-,"   'mc/insert-numbers)
+(use-package multiple-cursors
+  :bind (( "C-c ."     . mc/mark-next-like-this)
+         ( "C-c ,"     . mc/mark-previous-like-this)
+         ( "C-c M-."   . mc/mark-all-like-this)
+         ( "C-c M-SPC" . mc/edit-lines)
+         ( "C-c M-,"   . mc/insert-numbers)))
 
-;; IDO
-(maybe-install-and-require 'ido-ubiquitous)
-(ido-mode t)
-(ido-ubiquitous)
-(setq ido-enable-flex-matching t)
+(use-package ido-ubiquitous
+  :config
+  (ido-mode t)
+  (ido-ubiquitous)
+  (setq ido-enable-flex-matching t))
 
 ;; Autocomplete meta-x
-(maybe-install-and-require 'smex)
-(smex-initialize)
-(smex-initialize-ido)
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-(setq smex-history-length 12)
-(global-set-key (kbd "C-c M-x") 'execute-extended-command)
+(use-package smex
+  :config
+  (smex-initialize)
+  (smex-initialize-ido)
+  (setq smex-history-length 12)
+  ;;TODO: bind
+  (global-set-key (kbd "M-x") 'smex)
+  (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+  (global-set-key (kbd "C-c M-x") 'execute-extended-command))
 
+(use-package expand-region
+  :bind (("C-\\" . er/expand-region)))
 
-;; expand region
-(maybe-install-and-require 'expand-region)
-(bind-key* "C-\\" 'er/expand-region)
+(use-package yagist
+  :config
+  (setq yagist-encrypt-risky-config t)
+  (setq yagist-github-token nil))
 
-;; yagist
-(maybe-install-and-require 'yagist)
-(maybe-install-and-require 'kaesar)
-(setq yagist-encrypt-risky-config t)
-(setq yagist-github-token nil)
+(use-package kaesar)
 
 ;; flyspell
 (require 'flyspell)
@@ -270,8 +253,10 @@ If called with a prefix, prompts for flags to pass to ag."
       (append global-mode-string
               '((:eval (concat "[⁋" (getenv "AM_PROFILE") "]")))))
 ;; jvm-mode
-(maybe-install-and-require 'jvm-mode)
-(jvm-mode)
+(use-package jvm-mode
+  :pin melpa-stable
+  :config
+  (jvm-mode))
 
 (winner-mode)       ;; C-c right/left
 (show-paren-mode)
@@ -281,8 +266,10 @@ If called with a prefix, prompts for flags to pass to ag."
 ;; =============================================================
 ;; Color theme
 
-(maybe-install-and-require 'cyberpunk-theme)
-(load-theme 'cyberpunk t)
+(use-package cyberpunk-theme
+  :ensure t
+  :config
+  (load-theme 'cyberpunk t))
 
 ;; =============================================================
 ;; Key bindings
@@ -344,6 +331,7 @@ If called with a prefix, prompts for flags to pass to ag."
 (setq blink-matching-paren-distance nil)
 (setq-default indent-tabs-mode nil)
 (setq default-tab-width 2)
+
 (setq tab-width 2)
 (setq python-indent 3)
 (setq c-basic-offset 3)
@@ -359,9 +347,10 @@ If called with a prefix, prompts for flags to pass to ag."
 (setq vc-make-backup-files t)
 
 ;; Save point position between sessions
-(require 'saveplace)
-(setq-default save-place t)
-(setq save-place-file (expand-file-name "places" user-emacs-directory))
+(use-package saveplace
+  :config
+  (setq-default save-place t)
+  (setq save-place-file (expand-file-name "places" user-emacs-directory)))
 
 ;; server
 (require 'server)
@@ -395,39 +384,48 @@ If called with a prefix, prompts for flags to pass to ag."
   (with-current-buffer (current-nrepl-server-buffer)
     (kill-region (point-min) (point-max))))
 
-(maybe-install-and-require 'mustache)
-(maybe-install-and-require 'mustache-mode)
+(use-package mustache)
+(use-package mustache-mode)
 
 (bind-key* "M-~" 'ibuffer)
 
-(maybe-install-and-require 'ace-jump-mode)
-(autoload 'ace-jump-mode "ace-jump-mode" "Emacs quick move minor mode" t)
-(autoload 'ace-jump-mode-pop-mark "ace-jump-mode" "Ace jump back" t)
-(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
-(eval-after-load "ace-jump-mode"
-  '(ace-jump-mode-enable-mark-sync))
-(define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
+;; (maybe-install-and-require 'ace-jump-mode)
+;; (autoload 'ace-jump-mode "ace-jump-mode" "Emacs quick move minor mode" t)
+;; (autoload 'ace-jump-mode-pop-mark "ace-jump-mode" "Ace jump back" t)
+;; (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+;; (eval-after-load "ace-jump-mode"
+;;   '(ace-jump-mode-enable-mark-sync))
+;; (define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
+
 (bind-key* "C-c l" 'goto-line)
 
-(maybe-install-and-require 'keyfreq)
-(keyfreq-mode 0)
-(keyfreq-autosave-mode 0)
+(use-package keyfreq
+  :config
+  (keyfreq-mode 0)
+  (keyfreq-autosave-mode 0))
 
-(maybe-install-and-require 'zencoding-mode)
-(bind-key* "C-c z" 'zencoding-mode)
+(use-package zencoding-mode
+  :bind "C-c z")
 
 (setq which-func-mode t)
 (display-time-mode -1)
-;; (display-battery-mode t)
-;; (setq battery-mode-line-format "[b: %b%p%%]")
 
-(maybe-install-and-require 'guide-key)
-(guide-key-mode 1)
-(diminish 'guide-key-mode " ?")
-(setq guide-key/popup-window-position 'bottom)
-(setq guide-key/idle-delay 2)
+(use-package guide-key
+  :config
+  (guide-key-mode 1)
+  (setq guide-key/popup-window-position 'bottom)
+  (setq guide-key/idle-delay 2)
+  :diminish " ?")
 
-(maybe-install-and-require 'hl-todo)
+(use-package hl-todo
+  :config
+  (global-hl-todo-mode)
+  (setq hl-todo-activate-in-modes (quote (emacs-lisp-mode clojure-mode javascript-mode)))
+  ;;TODO simplify this.
+  (setq hl-todo-keyword-faces (quote (("TODO" . "#cc9393")  ("TODO:" . "#cc9393")
+                                      ("DONE" . "#afd8af")  ("DONE:" . "#afd8af")
+                                      ("FIXME" . "#cc9393") ("FIXME:" . "#cc9393")
+                                      ("XXX" . "#cc9393")   ("XXX:" . "#cc9393")))))
 
 (-map
  (lambda (m)
@@ -435,18 +433,10 @@ If called with a prefix, prompts for flags to pass to ag."
    (add-hook m #'hl-todo-mode))
  '(clojure-mode-hook emacs-lisp-mode-hook javascript-mode-hook markdown-mode-hook puppet-mode-hook javascript-mode-hook))
 
-(add-hook 'clojure-mode-hook (lambda ()
-                               (clj-refactor-mode 1)
-                               (cljr-add-keybindings-with-prefix "C-c C-o")
-                               (linum-mode 1)
-                               (guide-key/add-local-guide-key-sequence "C-x")
-                               (guide-key/add-local-guide-key-sequence "C-c")
-                               (set-face-foreground 'font-lock-function-name-face "#808080")))
-
 (setq initial-scratch-message "")
 
-(maybe-install-and-require 'avy)
-(bind-key* "M-;" 'avy-goto-char)
+(use-package avy
+  :bind (("M-;" . avy-goto-char)))
 
 (setq fill-column 80)
 (setq comment-auto-fill-only-comments t)
@@ -459,40 +449,39 @@ If called with a prefix, prompts for flags to pass to ag."
 (-map
  (lambda (m)
    (add-hook m (lambda () (linum-mode 1))))
- '(clojure-mode-hook emacs-lisp-mode-hook markdown-mode-hook))
-
-;; toggle the default colours on linum mode.
+ '(clojure-mode-hook emacs-lisp-mode-hook markdown-mode-hook org-mode-hook))
 
 (setq calendar-minimum-window-height 5)
 (setq vc-follow-symlinks nil)
-(maybe-install-and-require 'recentf)
-(recentf-mode 1)
-(setq recentf-max-menu-items 1000)
-(setq recentf-max-saved-items 1000)
-(bind-key* "M-`" 'recentf-open-files)
-(bind-key* "C-x M-`" 'tmm-menubar)
+(use-package recentf
+  :config
+  (recentf-mode 1)
+  (setq recentf-max-menu-items 1000)
+  (setq recentf-max-saved-items 1000)
+  :bind (("M-`" . recentf-open-files)))
 
-'((maybe-install-and-require 'tagedit)
-  (eval-after-load "sgml-mode"
-    '(progn
-       (require 'tagedit)
-       (tagedit-add-paredit-like-keybindings)
-       (add-hook 'html-mode-hook (lambda () (tagedit-mode 1)))))
-  (eval-after-load "mustache-mode"
-    '(progn
-       (require 'tagedit)
-       (tagedit-add-paredit-like-keybindings)
-       (add-hook 'mustache-mode-hook (lambda () (tagedit-mode 1))))))
+;; '((maybe-install-and-require 'tagedit)
+;;   (eval-after-load "sgml-mode"
+;;     '(progn
+;;        (require 'tagedit)
+;;        (tagedit-add-paredit-like-keybindings)
+;;        (add-hook 'html-mode-hook (lambda () (tagedit-mode 1)))))
+;;   (eval-after-load "mustache-mode"
+;;     '(progn
+;;        (require 'tagedit)
+;;        (tagedit-add-paredit-like-keybindings)
+;;        (add-hook 'mustache-mode-hook (lambda () (tagedit-mode 1))))))
 
-(maybe-install-and-require 'deft)
-(setq deft-auto-save-interval 60)
-(setq deft-extension "org")
-(setq deft-text-mode 'org-mode)
-(setq deft-use-filename-as-title t)
+(use-package deft
+  :config
+  (setq deft-auto-save-interval 60)
+  (setq deft-extension "org")
+  (setq deft-text-mode 'org-mode)
+  (setq deft-use-filename-as-title t))
 
 ;; redefining the auto naming for Deft -- this makes it easier to
 ;; share amongst different machines with versioning.
-(maybe-install-and-require 'uuid)
+(use-package uuid)
 (defun deft-unused-slug ()
   (uuid-to-stringy (uuid-create)))
 
@@ -500,16 +489,10 @@ If called with a prefix, prompts for flags to pass to ag."
           (lambda ()
             (set-face-foreground 'ace-jump-face-foreground "blue")))
 
-(maybe-install-and-require 'powerline)
-(powerline-center-theme)
-
-(global-hl-todo-mode)
-(setq hl-todo-activate-in-modes (quote (emacs-lisp-mode clojure-mode javascript-mode)))
-;;TODO simplify this.
-(setq hl-todo-keyword-faces (quote (("TODO" . "#cc9393")  ("TODO:" . "#cc9393")
-                                    ("DONE" . "#afd8af")  ("DONE:" . "#afd8af")
-                                    ("FIXME" . "#cc9393") ("FIXME:" . "#cc9393")
-                                    ("XXX" . "#cc9393")   ("XXX:" . "#cc9393") )))
+(use-package powerline
+  :config
+  (powerline-center-theme)
+  (setq powerline-default-separator nil))
 
 (defun back-window ()
   (interactive)
@@ -525,32 +508,24 @@ If called with a prefix, prompts for flags to pass to ag."
 
 (bind-key* "C-x 0" 'back-window)
 
-(bind-key "C-c t"   'clojure-jump-between-tests-and-code cider-mode-map)
+;;NO longer defined (bind-key "C-c t"   'clojure-jump-between-tests-and-code cider-mode-map)
 (bind-key "C-c C-t" 'cider-test-run-tests cider-mode-map)
 (bind-key "C-c M-r" 'cider-repl-previous-matching-input)
 (bind-key "C-c *" 'server-buffer)
 (bind-key "C-c 8" 'repl-buffer)
-(setq powerline-default-separator nil)
 
-;;TODO: add a key for  'toggle-truncate-lines
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(cider-prompt-for-project-on-connect nil)
  '(custom-enabled-themes (quote (solarized-dark cyberpunk)))
  '(custom-safe-themes
    (quote
     ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
- '(echo-bell-background "dark red")
- '(echo-bell-string "D'oh!")
+ '(ediff-merge-split-window-function (quote split-window-horizontally))
  '(git-commit-finish-query-functions nil)
- '(org-confirm-babel-evaluate nil)
- '(projectile-globally-ignored-directories
-   (quote
-    (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" "resources/public/js/compiled/")))
- '(projectile-globally-ignored-files (quote ("TAGS" ".DS_Store"))))
+ '(org-confirm-babel-evaluate nil))
 
 (setq bookmark-save-flag 0)
 
@@ -558,64 +533,73 @@ If called with a prefix, prompts for flags to pass to ag."
   (setq warning-suppress-types nil))
 (push '(undo discard-info) warning-suppress-types)
 
-(setq ag-arguments '("--ignore=*build/js*" "--line-number" "--smart-case" "--nogroup" "--column" "--"))
 (unbind-key "C-z")
 
-(maybe-install-and-require 'god-mode)
-(diminish 'god-local-mode "[[☁️ GOD ⚡️ ]]")
+(use-package god-mode
+  :diminish (god-local-mode . "[[☁️ GOD ⚡️ ]]"))
 
-(maybe-install-and-require 'help+)
-(maybe-install-and-require 'help-mode+)
-(maybe-install-and-require 'help-fns+)
-(maybe-install-and-require 'swiper)
-(bind-key "C-x M-s" 'swiper)
-(maybe-install-and-require 'aggressive-indent)
-(bind-key "C-c C-q" 'cider-quit clojure-mode-map)
+(use-package swiper
+  :bind (("C-x M-s" . swiper)))
 
-(maybe-install-and-require 'mmm-mode)
+(use-package aggressive-indent
+  :config
+  (-map
+   (lambda (m)
+     (add-hook m #'aggressive-indent-mode))
+   '(clojure-mode-hook emacs-lisp-mode-hook)))
+;;(bind-key "C-c C-q" 'cider-quit clojure-mode-map)
 
-(-map
- (lambda (m)
-   (add-hook m #'aggressive-indent-mode))
- '(clojure-mode-hook emacs-lisp-mode-hook))
+(use-package mmm-mode)
 
-
-;; help+
-;; help-fns--autoloaded-p
-;; North London ;P
 (setq calendar-latitude 51.5683)
 (setq calendar-longitude 0.1031)
 
-(maybe-install-and-require 'dockerfile-mode)
-(maybe-install-and-require 'projectile)
-(diminish 'projectile-mode "🚀 ")
-(projectile-global-mode t)
+(use-package dockerfile-mode)
+(use-package projectile
+  :diminish "🚀 "
+  :init
+  (projectile-global-mode t)
 
-(maybe-install-and-require 'json-mode)
-(maybe-install-and-require 'json-snatcher)
-(maybe-install-and-require 'jumblr)
+  (setq projectile-globally-ignored-directories
+        (quote
+         (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" "resources/public/js/compiled/")))
+  (setq projectile-globally-ignored-files (quote ("TAGS" ".DS_Store"))))
 
-(maybe-install-and-require 'haskell-mode)
-(add-hook 'haskell-mode-hook 'haskell-indent-mode)
-(add-hook 'haskell-mode-hook 'interactive-haskell-mode)
-(add-hook 'haskell-mode-hook 'linum-mode)
+(use-package json-mode
+  :pin melpa-stable)
+(use-package json-snatcher
+  :pin melpa-stable)
+(use-package jumblr
+  :pin melpa-stable)
+
+(use-package haskell-mode
+  :config
+  (add-hook 'haskell-mode-hook 'haskell-indent-mode)
+  (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+  (add-hook 'haskell-mode-hook 'linum-mode))
 
 (when (eq 'darwin system-type)
-  (maybe-install-and-require 'color-theme)
-  (maybe-install-and-require 'solarized-theme)
-  (load-theme 'solarized-dark)
-  (maybe-install-and-require 'seethru)
-  (setq default-transparency 98)
-  (seethru default-transparency)
-  (bind-key "§" (lambda () (interactive)
-                  (if (or (not (frame-parameter (selected-frame) 'alpha))
-                          (= default-transparency (frame-parameter (selected-frame) 'alpha)))
-                      (seethru 80)
-                    (seethru default-transparency))))
+  (display-battery-mode t)
+  (setq battery-mode-line-format "[b: %b%p%%]")
+
+  (use-package color-theme)
+  (use-package solarized-theme
+    :config
+    (load-theme 'solarized-dark))
+  (use-package seethru
+    :config
+    (setq default-transparency 98)
+    (seethru default-transparency)
+    (bind-key "§" (lambda () (interactive)
+                    (if (or (not (frame-parameter (selected-frame) 'alpha))
+                            (= default-transparency (frame-parameter (selected-frame) 'alpha)))
+                        (seethru 80)
+                      (seethru default-transparency)))))
+
   (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
+
   (setq cider-lein-command "/usr/local/bin/lein")
   (setq markdown-open-command "open -a /Applications/Marked.app")
-  (toggle-frame-maximized)
   (setq ag-executable "/usr/local/bin/ag"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -631,7 +615,7 @@ If called with a prefix, prompts for flags to pass to ag."
  '(org-level-5 ((t (:inherit outline-5 :height 1.0))))
  '(org-todo ((t (:foreground "#2aa198" :weight bold :height 1.0 :box nil :underline t)))))
 
-(maybe-install-and-require 'smartparens)
+(use-package smartparens)
 
 (defun live-paredit-delete-horizontal-space ()
   (interactive)
@@ -652,14 +636,19 @@ If called with a prefix, prompts for flags to pass to ag."
       (backward-char)
       (live-paredit-delete-horizontal-space))))
 
-(maybe-install-and-require 'scala-mode2)
+(use-package scala-mode2)
+
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((clojure . t)
    (scala . t)
    (sh . t)
-   ;(pony . t)
+   ;;(pony . t)
    ))
 
-(maybe-install-and-require 'echo-bell)
-(echo-bell-mode t)
+
+(use-package echo-bell
+  :config
+  (echo-bell-mode t)
+  (setq echo-bell-background "dark red")
+  (setq echo-bell-string "D'oh!"))

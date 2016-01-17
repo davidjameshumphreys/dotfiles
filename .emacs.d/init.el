@@ -62,6 +62,7 @@
   (setq cider-repl-history-file "~/.emacs.d/cider-history")
   (setq cider-prompt-for-project-on-connect nil)
   (setq cider-prompt-for-symbol nil)
+  (setq cider-cljs-repl "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")
   (add-hook 'cider-repl-mode-hook 'subword-mode)
   (unbind-key "C-x C-r")
   (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)

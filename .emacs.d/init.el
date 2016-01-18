@@ -62,7 +62,7 @@
   (setq cider-repl-history-file "~/.emacs.d/cider-history")
   (setq cider-prompt-for-project-on-connect nil)
   (setq cider-prompt-for-symbol nil)
-  (setq cider-cljs-repl "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")
+  ;;  (setq cider-cljs-repl "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")
   (add-hook 'cider-repl-mode-hook 'subword-mode)
   (unbind-key "C-x C-r")
   (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
@@ -519,6 +519,7 @@ If called with a prefix, prompts for flags to pass to ag."
     ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(ediff-merge-split-window-function (quote split-window-horizontally))
  '(git-commit-finish-query-functions nil)
+ '(magit-use-overlays nil)
  '(org-confirm-babel-evaluate nil)
  '(visible-bell t))
 
@@ -551,7 +552,7 @@ If called with a prefix, prompts for flags to pass to ag."
 
 (use-package dockerfile-mode)
 (use-package projectile
-  :diminish "🚀 "
+  :diminish " ℗"
   :init
   (projectile-global-mode t)
 
@@ -689,8 +690,6 @@ Return -1 resp the length of the history if no item matches."
     (interactive (company-begin-backend 'company-repl-history))
     (prefix (and (eq major-mode 'cider-repl-mode)
                  (buffer-substring cider-repl-input-start-mark (point))))
-
-    ;;    (or  "")
     (candidates
      (filter-repl-history arg))))
 

@@ -62,7 +62,7 @@
   (setq cider-repl-history-file "~/.emacs.d/cider-history")
   (setq cider-prompt-for-project-on-connect nil)
   (setq cider-prompt-for-symbol nil)
-  ;;  (setq cider-cljs-repl "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")
+  (setq cider-cljs-repl "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")
   (add-hook 'cider-repl-mode-hook 'subword-mode)
   (unbind-key "C-x C-r")
   (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
@@ -602,7 +602,7 @@ If called with a prefix, prompts for flags to pass to ag."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#002b36" :foreground "#839496" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 140 :width normal :foundry "nil" :family "Menlo"))))
+ '(default ((t (:inherit nil :stipple nil :background "#002b36" :foreground "#839496" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 165 :width normal :foundry "nil" :family "Menlo"))))
  '(hl-todo ((t (:foreground "blue" :underline t :weight bold))))
  '(org-level-1 ((t (:inherit outline-1 :height 1.0))))
  '(org-level-2 ((t (:inherit outline-2 :height 1.0))))

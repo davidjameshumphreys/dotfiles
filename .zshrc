@@ -5,7 +5,7 @@ export DOTFILES=~/dotfiles
 ZSH_THEME="robbyrussell"
 DISABLE_AUTO_UPDATE="true"
 DISABLE_AUTO_TITLE="true"
-plugins=(git dircycle gem git-extras git-flow lein mvn osx perl)
+plugins=(git dircycle gem git-extras git-flow lein mvn osx dirpersist)
 
 source $ZSH/oh-my-zsh.sh
 

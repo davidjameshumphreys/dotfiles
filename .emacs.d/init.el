@@ -427,7 +427,8 @@ If called with a prefix, prompts for flags to pass to ag."
 (-map
  (lambda (m)
    (add-hook m #'linum-mode)
-   (add-hook m #'hl-todo-mode))
+   (add-hook m #'hl-todo-mode)
+   (add-hook m #'hl-line-mode))
  '(clojure-mode-hook emacs-lisp-mode-hook javascript-mode-hook markdown-mode-hook puppet-mode-hook javascript-mode-hook))
 
 (setq initial-scratch-message "")

@@ -1,7 +1,7 @@
-{:user {:plugins      [[cider/cider-nrepl "0.10.1"
+{:user {:plugins      [[cider/cider-nrepl "0.12.0"
                         :exclusions [org.clojure/clojure
                                      org.clojure/tools.nrepl]]
-                       [refactor-nrepl "1.2.0"]
+                       [refactor-nrepl "2.2.0"]
                        [lein-pprint "1.1.2"]]
         :dependencies [[pjstadig/humane-test-output "0.6.0"]
                        [criterium "0.4.3"]

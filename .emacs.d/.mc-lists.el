@@ -11,6 +11,8 @@
         cljr-slash
         cljr-splice-sexp-killing-backward
         cljr-splice-sexp-killing-backward
+        clojure-toggle-keyword-string
+        comment-or-uncomment-region
         dabbrev-expand
         dabbrev-expand
         delete-horizontal-space
@@ -44,6 +46,7 @@
         paredit-doublequote
         paredit-forward
         paredit-forward-delete
+        paredit-forward-down
         paredit-forward-kill-word
         paredit-forward-slurp-sexp
         paredit-kill

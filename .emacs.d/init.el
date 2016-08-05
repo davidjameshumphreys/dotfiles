@@ -560,7 +560,8 @@ If called with a prefix, prompts for flags to pass to ag."
   (setq projectile-globally-ignored-directories
         (quote
          (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" "resources/public/js/compiled/")))
-  (setq projectile-globally-ignored-files (quote ("TAGS" ".DS_Store"))))
+  (setq projectile-globally-ignored-files (quote ("TAGS" ".DS_Store"))
+        projectile-switch-project-action 'projectile-vc))
 
 (use-package json-mode
   :pin melpa-stable)

@@ -18,6 +18,7 @@ alias gau='git add -u'
 alias gst='git status'
 alias g='git'
 alias d='docker'
+alias dm='docker-machine'
 
 settitle(){
     echo -ne "\033]0;$*\007"

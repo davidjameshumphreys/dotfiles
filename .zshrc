@@ -16,6 +16,7 @@ alias dir='ls -lrt'
 alias fcl='ack --CLJ'
 alias gau='git add -u'
 alias gst='git status'
+alias gs='git status -sb'
 alias g='git'
 alias d='docker'
 alias dm='docker-machine'
@@ -37,6 +38,7 @@ source $HOME/zaw/zaw.zsh
 bindkey '^x' zaw
 bindkey '^r' zaw-history
 bindkey '^z' zaw-bookmark
+bindkey "^[ " zaw-git-recent-branches
 
 export LESS=-R-X
 alias DATE='date +%Y%m%d'

@@ -4,7 +4,7 @@ export DOTFILES=~/dotfiles
 
 ZSH_THEME="robbyrussell"
 DISABLE_AUTO_UPDATE="true"
-DISABLE_AUTO_TITLE="true"
+DISABLE_AUTO_TITLE="false"
 plugins=(git dircycle gem git-extras git-flow lein mvn osx dirpersist)
 
 source $ZSH/oh-my-zsh.sh
@@ -38,7 +38,7 @@ source $HOME/zaw/zaw.zsh
 bindkey '^x' zaw
 bindkey '^r' zaw-history
 bindkey '^z' zaw-bookmark
-bindkey "^[ " zaw-git-recent-branches
+bindkey "^[ " zaw-git-recent-all-branches
 
 export LESS=-R-X
 alias DATE='date +%Y%m%d'
@@ -59,6 +59,7 @@ qc(){
 
 alias vs='vagrant status'
 alias gl='git lola'
+alias glo='git lol'
 alias gg='git grab'
 alias gp='git pull'
 alias gio='git onto'
@@ -75,13 +76,14 @@ setopt histignoredups
 zshaddhistory () {
     # Ignore common commands.
     COMMAND_STR=${1%%$'\n'}
-    [[ ( -z $COMMAND_STR ) ||                            \
-       ( $COMMAND_STR =~ hist(ory)? ) ||                  \
-       ( $COMMAND_STR =~ ^l(s\|l\|a)?$ ) ||                \
-       ( $COMMAND_STR =~ ^(d\|gd\|git\ diff\|glp\|gg)$ ) || \
-       ( $COMMAND_STR =~ ^gl) ||                             \
-       ( $COMMAND_STR =~ ^cd) ||                              \
-       ( $COMMAND_STR =~ ^kill)                                \
+    [[ ( -z $COMMAND_STR ) ||
+       ( $COMMAND_STR =~ ^gst?$ ) ||
+       ( $COMMAND_STR =~ hist(ory)? ) ||
+       ( $COMMAND_STR =~ ^l(s\|l\|a)?$ ) ||
+       ( $COMMAND_STR =~ ^gl) ||
+       ( $COMMAND_STR =~ ^cd) ||
+       ( $COMMAND_STR =~ ^kill) ||
+       ( $COMMAND_STR =~ ^(d\|gd\|git\ diff\|glp\|gg)$ )
      ]] && return 1
     return 0
 }
@@ -92,4 +94,7 @@ HOSTFILE=${DOTFILES}/hosts/$(hostname)
 if [ -f  $HOSTFILE ] ; then
     echo "Loading ${HOSTFILE}"
     source $HOSTFILE
+else
+    echo "No ${HOSTFILE} found!"
 fi
+export PATH="/usr/local/sbin:$PATH"

@@ -9,7 +9,7 @@
     (progn
       (scroll-bar-mode -1)
       (tool-bar-mode -1)
-      (set-face-attribute 'default nil :height 140))
+      (set-face-attribute 'default nil :height 160))
   (menu-bar-mode 0))
 
 ;; =============================================================
@@ -64,9 +64,7 @@
   (setq cider-prompt-for-symbol nil)
   (setq cider-cljs-repl "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")
   (add-hook 'cider-repl-mode-hook 'subword-mode)
-  (unbind-key "C-x C-r")
-  (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
-  (add-hook 'cider-repl-mode-hook 'cider-turn-on-eldoc-mode)
+  ;;(unbind-key "C-x C-r")
   (add-hook 'cider-repl-mode-hook #'company-mode)
   (add-hook 'cider-mode-hook #'company-mode)
   :bind
@@ -182,6 +180,7 @@ If called with a prefix, prompts for flags to pass to ag."
   :diminish " φ"
   :config
   (golden-ratio-mode 1)
+  (setq golden-ratio-adjust-factor 1)
   (add-to-list 'golden-ratio-exclude-modes "ediff-mode")
   (add-to-list 'golden-ratio-exclude-modes "calendar-mode")
   (add-to-list 'golden-ratio-exclude-modes "undo-tree-visualizer"))
@@ -259,10 +258,10 @@ If called with a prefix, prompts for flags to pass to ag."
 ;;               '((:eval (concat "[⁋" (getenv "AM_PROFILE") "]")))))
 
 ;; jvm-mode
-(use-package jvm-mode
-  :pin melpa-stable
-  :config
-  (jvm-mode))
+;; (use-package jvm-mode
+;;   :pin melpa-stable
+;;   :config
+;;   (jvm-mode))
 
 (winner-mode)       ;; C-c right/left
 (show-paren-mode)
@@ -306,7 +305,8 @@ If called with a prefix, prompts for flags to pass to ag."
 	(DELETE 2)
 	(HEAD 2)
 	(ANY 2)
-	(context 2))
+	(context 2)
+  (fact 1))
 
 ;; =============================================================
 ;; Settings
@@ -429,12 +429,13 @@ If called with a prefix, prompts for flags to pass to ag."
    (add-hook m #'linum-mode)
    (add-hook m #'hl-todo-mode)
    (add-hook m #'hl-line-mode))
- '(clojure-mode-hook emacs-lisp-mode-hook javascript-mode-hook markdown-mode-hook puppet-mode-hook javascript-mode-hook))
+ '(clojure-mode-hook emacs-lisp-mode-hook javascript-mode-hook markdown-mode-hook puppet-mode-hook javascript-mode-hook feature-mode-hook ruby-mode-hook))
 
 (setq initial-scratch-message "")
 
 (use-package avy
-  :bind (("M-;" . avy-goto-char)))
+  :bind (("M-;" . avy-goto-char)
+         ("C-;" . avy-goto-char)))
 
 (setq fill-column 80)
 (setq comment-auto-fill-only-comments t)
@@ -449,6 +450,21 @@ If called with a prefix, prompts for flags to pass to ag."
  (lambda (m)
    (add-hook m (lambda () (linum-mode 1))))
  '(clojure-mode-hook emacs-lisp-mode-hook markdown-mode-hook org-mode-hook))
+
+(use-package fill-column-indicator
+  :pin melpa
+  :config
+  (setq fci-rule-width 1
+        fci-rule-color "darkblue"))
+
+
+(-map
+ (lambda (m)
+   (add-hook m (lambda ()
+                 (auto-fill-mode)
+                 (turn-on-fci-mode))))
+ '(markdown-mode-hook org-mode-hook))
+
 
 (setq calendar-minimum-window-height 5)
 (setq vc-follow-symlinks nil)
@@ -514,14 +530,29 @@ If called with a prefix, prompts for flags to pass to ag."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(cider-inject-dependencies-at-jack-in nil)
+ '(cider-repl-use-pretty-printing t)
  '(custom-enabled-themes (quote (solarized-dark cyberpunk)))
  '(custom-safe-themes
    (quote
-    ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
+    ("a25c42c5e2a6a7a3b0331cad124c83406a71bc7e099b60c31dc28a1ff84e8c04" "f0b36dc2389d5b8ff7fb00208e43e9d64dc1ace93b7763fc573e3eb558244d77" "16e0a1ccbf8ad267461c165697aa97815122fb31601aeccb82e7b6d2d75dcd9e" "01ce486c3a7c8b37cf13f8c95ca4bb3c11413228b35676025fdf239e77019ea1" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(ediff-merge-split-window-function (quote split-window-horizontally))
+ '(elm-oracle-command "/Users/david/.nvm/versions/node/v4.2.3/bin/elm-oracle")
  '(git-commit-finish-query-functions nil)
+ '(magit-diff-options nil)
+ '(magit-diff-use-overlays nil)
+ '(magit-status-sections-hook
+   (quote
+    (magit-insert-status-local-line magit-insert-status-remote-line magit-insert-status-head-line magit-insert-status-tags-line magit-insert-status-merge-line magit-insert-status-rebase-lines magit-insert-empty-line magit-insert-rebase-sequence magit-insert-bisect-output magit-insert-bisect-rest magit-insert-bisect-log magit-insert-untracked-files magit-insert-pending-commits magit-insert-unstaged-changes magit-insert-staged-changes magit-insert-unpulled-commits magit-insert-unpushed-commits magit-insert-stashes)))
  '(magit-use-overlays nil)
+ '(markdown-command "/usr/local/bin/markdown")
  '(org-confirm-babel-evaluate nil)
+ '(package-selected-packages
+   (quote
+    (feature-mode evil-tutor evil evil-mode discover-clj-refactor cider fill-column-indicator white-sand-theme zencoding-mode yaml-mode yagist uuid use-package undo-tree tuareg swiper solarized-theme smex smartparens slamhound seethru scala-mode2 reykjavik-theme restclient puppet-mode projectile powerline ponylang-mode mustache-mode mustache mmm-mode markdown-mode magit keyfreq kaesar jvm-mode jumblr json-mode ido-ubiquitous idle-highlight-mode hl-todo hl-sexp hl-indent hindent help-mode+ help-fns+ help+ haskell-mode guide-key golden-ratio god-mode git-gutter expand-region elm-yasnippets elm-mode echo-bell dockerfile-mode deft cyberpunk-theme company color-theme col-highlight clojure-snippets clojure-quick-repls browse-kill-ring avy align-cljlet aggressive-indent ag ace-jump-mode)))
+ '(safe-local-variable-values (quote ((cider-boot-parameters . "dev"))))
+ '(split-height-threshold 300)
+ '(split-width-threshold 300)
  '(visible-bell t))
 
 (setq bookmark-save-flag 0)
@@ -543,8 +574,9 @@ If called with a prefix, prompts for flags to pass to ag."
   (-map
    (lambda (m)
      (add-hook m #'aggressive-indent-mode))
-   '(clojure-mode-hook emacs-lisp-mode-hook)))
-;;(bind-key "C-c C-q" 'cider-quit clojure-mode-map)
+   '(clojure-mode-hook
+     emacs-lisp-mode-hook)))
+
 
 (use-package mmm-mode)
 
@@ -561,7 +593,9 @@ If called with a prefix, prompts for flags to pass to ag."
         (quote
          (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" "resources/public/js/compiled/")))
   (setq projectile-globally-ignored-files (quote ("TAGS" ".DS_Store"))
-        projectile-switch-project-action 'projectile-vc))
+        projectile-switch-project-action 'projectile-vc)
+  (bind-key "s-p" 'projectile-command-map)
+  (bind-key "s-s" 'projectile-save-project-buffers))
 
 (use-package json-mode
   :pin melpa-stable)
@@ -578,15 +612,16 @@ If called with a prefix, prompts for flags to pass to ag."
 
 (when (eq 'darwin system-type)
   (display-battery-mode t)
-  (setq battery-mode-line-format "[b: %b%p%%]")
+  (setq battery-mode-line-format "%t")
 
   (use-package color-theme)
   (use-package solarized-theme
     :config
     (load-theme 'solarized-dark))
+
   (use-package seethru
     :config
-    (setq default-transparency 98)
+    (setq default-transparency 99)
     (seethru default-transparency)
     (bind-key "§" (lambda () (interactive)
                     (if (or (not (frame-parameter (selected-frame) 'alpha))
@@ -599,25 +634,34 @@ If called with a prefix, prompts for flags to pass to ag."
   (setq cider-lein-command "/usr/local/bin/lein")
   (setq markdown-open-command "open -a /Applications/Marked.app")
   (setq ag-executable "/usr/local/bin/ag"))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#002b36" :foreground "#839496" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 165 :width normal :foundry "nil" :family "Menlo"))))
+ '(default ((t (:inherit nil :stipple nil :background "#002b36" :foreground "#839496" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :foundry "nil" :family "Inconsolata"))))
+ '(doc-face ((t (:inherit string-face))))
+ '(hl-indent-block-face-1 ((t (:background "DarkRed"))))
+ '(hl-indent-block-face-2 ((t (:background "VioletRed4"))))
+ '(hl-indent-block-face-3 ((t (:background "Blue"))))
+ '(hl-indent-block-face-4 ((t (:background "Brown"))))
  '(hl-todo ((t (:foreground "blue" :underline t :weight bold))))
- '(org-level-1 ((t (:inherit outline-1 :height 1.0))))
- '(org-level-2 ((t (:inherit outline-2 :height 1.0))))
- '(org-level-3 ((t (:inherit outline-3 :height 1.0))))
- '(org-level-4 ((t (:inherit outline-4 :height 1.0))))
- '(org-level-5 ((t (:inherit outline-5 :height 1.0))))
- '(org-todo ((t (:foreground "#2aa198" :weight bold :height 1.0 :box nil :underline t)))))
+ '(org-level-1 ((t (:inherit variable-pitch :foreground "#cb4b16" :height 1.0))))
+ '(org-level-2 ((t (:inherit variable-pitch :height 1.0))))
+ '(org-level-3 ((t (:inherit variable-pitch :height 1.0))))
+ '(org-level-4 ((t (:inherit variable-pitch :height 1.0))))
+ '(outline-1 ((t (:inherit org-level-1 :height 1.0))))
+ '(outline-2 ((t (:inherit org-level-2 :height 1.0))))
+ '(outline-3 ((t (:inherit org-level-3 :height 1.0))))
+ '(outline-4 ((t (:inherit org-level-4 :height 1.0))))
+ '(outline-5 ((t (:inherit org-level-5 :height 1.0)))))
 
 (use-package smartparens)
 
 (use-package company
   :ensure t
-  :pin melpa-stable
+  :pin melpa
   :diminish company-mode
   :config
   (global-company-mode))
@@ -643,29 +687,13 @@ If called with a prefix, prompts for flags to pass to ag."
 
 (use-package scala-mode2)
 
+;;(bind-key "C-c '")
+(setq org-edit-src-auto-save-idle-delay 5)
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((clojure . t)
    (scala . t)
-   (sh . t)
-   ;;(pony . t)
-   ))
-
-(defun cider-repl--position-in-history (start-pos direction regexp)
-  "Return the position of the history item starting at START-POS.
-Search in DIRECTION for REGEXP.
-Return -1 resp the length of the history if no item matches."
-  ;; Loop through the history list looking for a matching line
-  (let* ((step (cl-ecase direction
-                 (forward -1)
-                 (backward 1)))
-         (history cider-repl-input-history)
-         (len (length history)))
-    (cl-loop for pos = (+ start-pos step) then (+ pos step)
-             if (< pos 0) return -1
-             if (<= len pos) return len
-             if (string-match-p regexp (nth pos history)) return pos)))
-
+   (sh . t)))
 
 
 (use-package echo-bell
@@ -676,23 +704,77 @@ Return -1 resp the length of the history if no item matches."
 
 (use-package s)
 
-(defun filter-repl-history (&optional arg)
+
+;;TODO: hideshow modes
+;;TODO: gnu archive hideshow
+
+
+;; (use-package mmm-mode
+;;   :config
+;;   (setq mmm-classes))
+
+(mmm-add-classes
+ '((markdown-clojure
+    :submode clojure-mode
+    :front "^```clojure[\n\r]+"
+    :back "^```$")))
+
+(mmm-add-mode-ext-class 'markdown-mode nil 'markdown-clojure)
+
+(defun god-meta-mode ()
   (interactive)
-  (-filter
-   (lambda (s)
-     (s-matches? (if arg
-                     arg
-                   (buffer-substring cider-repl-input-start-mark (point))) s))
-   cider-repl-input-history))
+  (if god-local-mode (god-mode-all)
+    (setq god-mod-alist '((nil . "C-M-")))
+    (god-mode-all)))
 
-(defun company-repl-history
-    (command &optional arg)
-  (interactive (list 'interactive))
-  (cl-case command
-    (interactive (company-begin-backend 'company-repl-history))
-    (prefix (and (eq major-mode 'cider-repl-mode)
-                 (buffer-substring cider-repl-input-start-mark (point))))
-    (candidates
-     (filter-repl-history arg))))
+(use-package hindent
+  :ensure t
+  :pin melpa-stable)
 
-(add-to-list 'company-backends 'company-repl-history)
+(setq exec-path (append '("/usr/local/bin/" "/Users/david/.nvm/versions/node/v4.2.3/bin/" "/usr/local/Cellar/elm-format/0.3.1-alpha/bin/elm-format-0.17") exec-path))
+
+(use-package elm-yasnippets
+  :ensure t
+  :pin melpa)
+
+(use-package elm-mode
+  :ensure t
+  :pin melpa
+  :config
+  (add-hook 'elm-mode-hook (lambda ()
+                             (linum-mode t)
+                             (smartparens-mode t)
+                             (yas-minor-mode-on)
+                             (elm-oracle-setup-completion)))
+  (setq elm-format-on-save t
+        elm-tags-on-save t
+        elm-tags-exclude-elm-stuff nil)
+  (add-to-list 'company-backends 'company-elm))
+
+
+(use-package ponylang-mode
+  :ensure t
+  :pin melpa)
+
+
+(defun my-paredit-nonlisp ()
+  "Turn on paredit mode for non-lisps."
+  (interactive)
+  (set (make-local-variable 'paredit-space-for-delimiter-predicates)
+       '((lambda (endp delimiter) nil)))
+  (paredit-mode 1))
+
+
+(defun kill-cider ()
+  "Actually kill the first CIDER"
+  (interactive)
+  (cider--quit-connection (car (cider-connections))))
+
+
+(use-package evil
+  :ensure t
+  :pin melpa)
+
+(use-package evil-tutor
+  :ensure t
+  :pin melpa)
